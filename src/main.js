@@ -11,10 +11,16 @@ Vue.config.productionTip = false
 
 Vue.use(ElementUI)
 
+import API from './api/index'
+import '@/style/index.styl'
+
+API.SiteInfoAPI().then(res => {
+  console.log(res)
+})
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-  template: '<App/>',
-  components: { App }
+  ...App
 })
