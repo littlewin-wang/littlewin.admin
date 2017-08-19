@@ -1,6 +1,18 @@
 <template>
   <el-menu default-active="1-4-1" theme="dark" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
-    <!--<div class="avatar"></div>-->
+    <div class="sidebar-title">
+      <div v-if="!isCollapse">
+        <span>Littlewin</span> Admin
+      </div>
+      <span v-else>L</span>
+    </div>
+    <div class="sidebar-avatar" :class="{isCollapse: isCollapse}">
+      <img src="http://lorempixel.com/400/400/cats/">
+    </div>
+    <div class="sidebar-info">
+      <div class="name">Littlewin</div>
+      <div class="tongue">Talking is cheap, show me the code.</div>
+    </div>
     <el-submenu index="1">
       <template slot="title">
         <i class="el-icon-message"></i>
@@ -51,11 +63,54 @@
 </script>
 
 <style lang="stylus" scoped>
-  .avatar
+  .sidebar-title
     width: 100%
-    height: 200px
-    background: yellow
+    height: 40px
+    line-height: 40px
+    color: #F9FAFC
+    font-size: 1.1rem
+    font-weight: 300
+    text-align: center
+    cursor: pointer
+    box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.5)
+    span
+      color: #13CE66
+
+  .sidebar-avatar
+    height: 140px
+    position: relative
+    width: 100%
+    img
+      border-radius: 9999px
+      height: 100px
+      width: 100px
+      position: absolute
+      top: 50%
+      left: 50%
+      transform: translate(-50%, -50%)
+    &.isCollapse
+      img
+        height: 50px
+        width: 50px
+
+  .sidebar-info
+    margin: 4px 0
+    color: #F9FAFC
+    font-weight: 100
+    text-align: center
+    letter-spacing: 1px
+    box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.5)
+    .tongue
+      width: 90%
+      margin: 0 auto
+      color: #99A9BF
+      font-size: 12px
+      height: 2rem
+      line-height: 2rem
+      overflow: hidden
+      white-space: nowrap
+      text-overflow: ellipsis
 
   .el-menu:not(.el-menu--collapse)
-    min-width: 200px
+    width: 180px
 </style>
