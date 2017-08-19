@@ -7,7 +7,7 @@
       <span v-else>L</span>
     </div>
     <div class="sidebar-avatar" :class="{isCollapse: isCollapse}">
-      <img src="http://lorempixel.com/400/400/cats/">
+      <img src="../../assets/avatar.jpeg">
     </div>
     <div class="sidebar-info">
       <div class="name">Littlewin</div>
@@ -37,10 +37,8 @@
   import SidebarItem from './components/SideBarItem.vue'
   export default {
     components: { SidebarItem },
-    data () {
-      return {
-        isCollapse: false
-      }
+    props: {
+      isCollapse: Boolean
     },
     methods: {
       handleOpen (key, keyPath) {
