@@ -53,8 +53,8 @@
 <style lang="stylus" scoped>
   .header
     height: 100%
-    background: #eef1f6
-    color: #475669
+    background: #324157
+    color: #F9FAFC
     .header-collapse
       display: inline-block
       vertical-align: top
