@@ -69,7 +69,6 @@
   .main-container
     position: relative
     flex: 1
-    background: #eef1f6
     color: #324057
     .main-nav
       height: 40px
