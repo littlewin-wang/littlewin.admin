@@ -6,7 +6,7 @@
     <div class="form-content">
       <el-form ref="form" :model="form" :rules="rules" label-position="left" label-width="120px">
         <el-form-item v-for="(value, key) in formData" v-bind:key="key" :label="value.label" :prop="key">
-          <el-input :type="value.type" v-model="form[key]"></el-input>
+          <el-input :type="value.type" :rows=4 v-model="form[key]"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click.naive="submitForm('form')">保存修改</el-button>

@@ -37,7 +37,13 @@
             val: String(this.site.keywords) || '',
             label: '关键词',
             type: 'input',
-            rule: { pattern: /^(([\u4e00-\u9fa5a-zA-Z])+,)+([\u4e00-\u9fa5a-zA-Z])$/, message: '请正确输入关键词', trigger: 'blur' }
+            rule: { pattern: /^(([\u4e00-\u9fa5a-zA-Z])+,)+([\u4e00-\u9fa5a-zA-Z])+$/, message: '请正确输入关键词', trigger: 'blur' }
+          },
+          description: {
+            val: this.site.description || '',
+            label: '描述',
+            type: 'textarea',
+            rule: { type: 'string', message: '请正确输入描述', trigger: 'blur' }
           },
           site_url: {
             val: this.site.site_url || '',
@@ -47,6 +53,18 @@
               { required: true, message: '请输入网址', trigger: 'blur' },
               { type: 'url', message: '请正确输入网址', trigger: 'blur' }
             ]
+          },
+          site_email: {
+            val: this.site.site_email || '',
+            label: '邮件地址',
+            type: 'input',
+            rule: { type: 'email', message: '请正确输入邮箱', trigger: 'blur' }
+          },
+          site_icp: {
+            val: this.site.site_icp || '',
+            label: '网站备案号',
+            type: 'input',
+            rule: { pattern: /^([\u4e00-\u9fa5a-zA-Z0-9])+$/, message: '请正确输入备案号', trigger: 'blur' }
           }
         }
       }
@@ -57,11 +75,17 @@
         let siteInfo = {
           title: data.title,
           sub_title: data.sub_title,
-          site_url: data.site_url
+          site_url: data.site_url,
+          keywords: data.keywords.split(','),
+          description: data.description,
+          site_email: data.site_email,
+          site_icp: data.site_icp
         }
-        console.log(siteInfo)
-        API.ModifySiteInfoAPI(siteInfo).then(res => {
-          console.log(res.data)
+        API.ModifySiteInfoAPI(siteInfo).then(() => {
+          this.$message({
+            message: '更新成功',
+            type: 'success'
+          })
           this.getSite()
         })
       }
