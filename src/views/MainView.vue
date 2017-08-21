@@ -8,7 +8,19 @@
         <LHeader @collapse="handleCollapse"></LHeader>
       </div>
       <div class="main-content">
-        <div class="main-breadcrumb"></div>
+        <div class="main-breadcrumb">
+          <div class="title">
+            全站设置
+          </div>
+          <div class="breadcrumb">
+            <el-breadcrumb separator="/">
+              <el-breadcrumb-item>首页</el-breadcrumb-item>
+              <el-breadcrumb-item>活动管理</el-breadcrumb-item>
+              <el-breadcrumb-item>活动列表</el-breadcrumb-item>
+              <el-breadcrumb-item>活动详情</el-breadcrumb-item>
+            </el-breadcrumb>
+          </div>
+        </div>
         <router-view></router-view>
       </div>
       <div class="main-footer">
@@ -51,15 +63,14 @@
     height: 100%
     width: 100%
   .main-sidebar
-    background: #777
     min-height: 100vh
     .sidebar
       height: 100%
   .main-container
     position: relative
     flex: 1
-    background: #475669
-    color: #F9FAFC
+    background: #eef1f6
+    color: #324057
     .main-nav
       height: 40px
       background: #bbb
@@ -70,6 +81,20 @@
       bottom: 40px
       left: 0
       padding: 0 30px
+      .main-breadcrumb
+        height: 40px
+        .title
+          display: inline-block
+          float: left
+          height: 100%
+          line-height: 40px
+        .breadcrumb
+          display: inline-block
+          float: right
+          height: 100%
+          .el-breadcrumb
+            height: 100%
+            line-height: 40px
     .main-footer
       position: absolute
       bottom: 0
