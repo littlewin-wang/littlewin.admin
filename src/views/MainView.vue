@@ -68,60 +68,52 @@
 <style lang="stylus" scoped>
   .main-body
     display: flex
+    min-height: 100vh
     position: relative
     height: 100%
     width: 100%
-  .main-sidebar
-    min-height: 100vh
-    .sidebar
-      height: 100%
-  .main-container
-    position: relative
-    flex: 1
-    color: #324057
-    .main-nav
-      height: 40px
-      background: #bbb
-    .main-content
-      position: absolute
-      top: 40px
-      right: 0
-      bottom: 40px
-      left: 0
-      padding: 0 30px
-      .main-breadcrumb
+    .main-sidebar
+      bottom: 0
+      .sidebar
+        height: 100%
+    .main-container
+      position: relative
+      flex: 1
+      color: #324057
+      .main-nav
         height: 40px
-        .title
+        background: #bbb
+      .main-content
+        padding: 0 30px
+        .main-breadcrumb
+          height: 40px
+          .title
+            display: inline-block
+            float: left
+            height: 100%
+            line-height: 40px
+          .breadcrumb
+            display: inline-block
+            float: right
+            height: 100%
+            .el-breadcrumb
+              height: 100%
+              line-height: 40px
+      .main-footer
+        height: 40px
+        padding: 0 30px
+        font-size: 14px
+        font-weight: 300
+        .copyright
           display: inline-block
           float: left
           height: 100%
           line-height: 40px
-        .breadcrumb
+        .else
           display: inline-block
           float: right
           height: 100%
-          .el-breadcrumb
-            height: 100%
-            line-height: 40px
-    .main-footer
-      position: absolute
-      bottom: 0
-      left: 0
-      right: 0
-      height: 40px
-      padding: 0 30px
-      font-size: 14px
-      font-weight: 300
-      .copyright
-        display: inline-block
-        float: left
-        height: 100%
-        line-height: 40px
-      .else
-        display: inline-block
-        float: right
-        height: 100%
-        line-height: 40px
-        .red
-          color: #e54e53
+          line-height: 40px
+          .red
+            color: #e54e53
 </style>

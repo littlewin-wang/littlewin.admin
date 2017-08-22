@@ -13,6 +13,9 @@ export default {
   UserInfoAPI () {
     return axios.get(API_ROOT.concat('user'))
   },
+  ModifyUserInfoAPI (params) {
+    return axios.put(API_ROOT.concat('user'), params)
+  },
   // site info
   SiteInfoAPI () {
     return axios.get(API_ROOT.concat('site'))

@@ -39,15 +39,16 @@
     methods: {
       formatForm () {
         for (let key in this.formData) {
-          this.form[key] = this.formData[key]['val']
+          this.$set(this.form, key, this.formData[key]['val'])
         }
       },
       submitForm (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.$emit('confirm', this.form)
+            this.formatForm()
           } else {
-            console.log('error submit!!')
+            this.$message.error('输入有错哦')
             return false
           }
         })
