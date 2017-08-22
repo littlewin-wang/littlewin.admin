@@ -9,6 +9,10 @@ const API_ROOT = 'http://119.29.68.183/api/'
 axios.defaults.withCredentials = true
 
 export default {
+  // auth api
+  UserInfoAPI () {
+    return axios.get(API_ROOT.concat('user'))
+  },
   // site info
   SiteInfoAPI () {
     return axios.get(API_ROOT.concat('site'))
@@ -16,6 +20,7 @@ export default {
   ModifySiteInfoAPI (params) {
     return axios.put(API_ROOT.concat('site'), params)
   },
+  // git repos
   GithubReposAPI () {
     return axios.get(API_ROOT.concat('github'))
   }

@@ -7,11 +7,13 @@
       <span v-else>L</span>
     </div>
     <div class="sidebar-avatar" :class="{isCollapse: isCollapse}">
-      <img src="../../assets/avatar.jpeg">
+      <img :src="user.gravatar">
     </div>
     <div class="sidebar-info">
-      <div class="name">Littlewin</div>
-      <div class="tongue">Talking is cheap, show me the code.</div>
+      <div class="name">{{user.username}}</div>
+      <el-tooltip class="item" effect="dark" :content="user.slogan" placement="right">
+        <div class="tongue">{{user.slogan}}</div>
+      </el-tooltip>
     </div>
     <el-submenu index="1">
       <template slot="title">
@@ -38,7 +40,8 @@
   export default {
     components: { SidebarItem },
     props: {
-      isCollapse: Boolean
+      isCollapse: Boolean,
+      user: Object
     },
     methods: {
       handleOpen (key, keyPath) {

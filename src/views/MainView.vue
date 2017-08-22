@@ -1,7 +1,7 @@
 <template>
   <div class="main-body">
     <div class="main-sidebar">
-      <SideBar class="sidebar" :isCollapse="isCollapse"></SideBar>
+      <SideBar class="sidebar" :isCollapse="isCollapse" :user="user"></SideBar>
     </div>
     <div class="main-container">
       <div class="main-nav">
@@ -38,6 +38,8 @@
 <script type="text/ecmascript-6">
   import SideBar from '@/components/SideBar/SideBar.vue'
   import LHeader from '@/components/Header/Header.vue'
+  import { mapGetters, mapActions } from 'vuex'
+
   export default {
     components: {
       SideBar,
@@ -48,10 +50,17 @@
         isCollapse: false
       }
     },
+    computed: {
+      ...mapGetters(['user'])
+    },
     methods: {
+      ...mapActions(['getUser']),
       handleCollapse (isCollapse) {
         this.isCollapse = isCollapse
       }
+    },
+    mounted () {
+      this.getUser()
     }
   }
 </script>
