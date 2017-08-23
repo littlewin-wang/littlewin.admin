@@ -5,7 +5,7 @@
     </div>
     <div class="main-container">
       <div class="main-nav">
-        <LHeader @collapse="handleCollapse"></LHeader>
+        <LHeader @collapse="handleCollapse" :user="user"></LHeader>
       </div>
       <div class="main-content">
         <div class="main-breadcrumb">

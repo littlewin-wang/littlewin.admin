@@ -24,7 +24,7 @@
         </el-badge>
       </div>
       <div class="avatar">
-        <img src="../../assets/avatar.jpeg">
+        <img :src="user.gravatar">
       </div>
     </div>
   </div>
@@ -32,6 +32,9 @@
 
 <script type="text/ecmascript-6">
   export default {
+    props: {
+      user: Object
+    },
     data () {
       return {
         isCollapse: false,
