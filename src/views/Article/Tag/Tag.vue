@@ -1,7 +1,7 @@
 <template>
   <div class="tag-container">
     <div class="tag-form">
-      <LForm :title="'添加标签'" :formData="tagInfo"></LForm>
+      <LForm :title="'添加标签'" :formData="tagInfo" @confirm="confirmTag"></LForm>
     </div>
     <div class="tag-list">
       123
@@ -12,7 +12,7 @@
 <script type="text/ecmascript-6">
   import LForm from '@/components/Form/Form.vue'
   import { mapGetters, mapActions } from 'vuex'
-//  import API from '@/api/index'
+  import API from '@/api/index'
 
   export default {
     components: {
@@ -34,13 +34,28 @@
           description: {
             val: '',
             label: '描述',
-            type: 'textarea'
+            type: 'textarea',
+            rule: { type: 'string', message: '请正确输入标签描述', trigger: 'blur' }
           }
         }
       }
     },
     methods: {
-      ...mapActions(['getSite', 'getUser'])
+      ...mapActions(['getSite', 'getUser']),
+      confirmTag (data) {
+        let tagInfo = {
+          name: data.name,
+          description: data.description
+        }
+
+        console.log(tagInfo)
+        API.CreateTagAPI(tagInfo).then(() => {
+          this.$message({
+            message: '添加标签成功',
+            type: 'success'
+          })
+        })
+      }
     },
     mounted () {
       this.getSite()

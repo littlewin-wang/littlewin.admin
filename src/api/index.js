@@ -16,6 +16,10 @@ export default {
   ModifyUserInfoAPI (params) {
     return axios.put(API_ROOT.concat('user'), params)
   },
+  // tag api
+  CreateTagAPI (params) {
+    return axios.post(API_ROOT.concat('tag'), params)
+  },
   // site info
   SiteInfoAPI () {
     return axios.get(API_ROOT.concat('site'))
