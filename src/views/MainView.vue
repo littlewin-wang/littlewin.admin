@@ -77,13 +77,17 @@
       .sidebar
         height: 100%
     .main-container
+      display: flex
+      flex-direction: column
+      bottom: 0
       position: relative
       flex: 1
       color: #324057
       .main-nav
-        height: 40px
+        flex: 0 40px
         background: #bbb
       .main-content
+        flex: 1
         padding: 0 30px
         .main-breadcrumb
           height: 40px
@@ -100,7 +104,7 @@
               height: 100%
               line-height: 40px
       .main-footer
-        height: 40px
+        flex: 0 40px
         padding: 0 30px
         font-size: 14px
         font-weight: 300
