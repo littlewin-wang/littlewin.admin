@@ -52,6 +52,11 @@
           }
         },
         tagEdit: {
+          _id: {
+            val: '',
+            label: 'ID',
+            type: 'input'
+          },
           name: {
             val: '',
             label: '标签名称',
@@ -109,21 +114,34 @@
             type: 'success'
           })
           this.getTags()
+        }).catch(err => {
+          this.$message.error(err.response.data.message)
         })
       },
       editTag (data) {
+        console.log(data._id)
         let tagInfo = {
           name: data.name,
           description: data.description
         }
         console.log(tagInfo)
+        API.ModifyTagAPI(data._id, tagInfo).then(() => {
+          this.$message({
+            message: '修改标签成功',
+            type: 'success'
+          })
+          this.dialogVisible = false
+          this.getTags()
+        }).catch(err => {
+          this.$message.error(err.response.data.message)
+        })
       },
       handleEdit (data) {
-        this.dialogVisible = true
-        console.log(data)
         for (let key in this.tagEdit) {
           this.tagEdit[key]['val'] = data[key] ? data[key] : ''
         }
+
+        this.dialogVisible = true
       },
       handleClose (done) {
         this.$confirm('确认关闭？')

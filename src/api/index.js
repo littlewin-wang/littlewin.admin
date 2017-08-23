@@ -23,6 +23,9 @@ export default {
   GetTagList () {
     return axios.get(API_ROOT.concat('tag'))
   },
+  ModifyTagAPI (id, params) {
+    return axios.put(API_ROOT.concat('tag/').concat(id), params)
+  },
   // site info
   SiteInfoAPI () {
     return axios.get(API_ROOT.concat('site'))

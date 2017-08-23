@@ -6,10 +6,10 @@
     <div class="form-content">
       <el-form ref="form" :model="form" :rules="rules" label-position="left" label-width="120px">
         <el-form-item v-for="(value, key) in formData" v-bind:key="key" :label="value.label" :prop="key">
-          <el-input :type="value.type" :rows=4 v-model="form[key]"></el-input>
+          <el-input :type="value.type" :rows=4 v-model="form[key]" :disabled="['_id','id'].indexOf(key)!==-1"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click.naive="submitForm('form')">保存修改</el-button>
+          <el-button type="primary" @click.naive="submitForm('form')">保存</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -28,6 +28,9 @@
       }
     },
     computed: {
+      testData () {
+        return this.formData
+      },
       rules () {
         let rules = {}
         for (let key in this.formData) {
@@ -46,7 +49,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.$emit('confirm', this.form)
-            this.formatForm()
+//            this.formatForm()
           } else {
             this.$message.error('输入有错哦')
             return false
@@ -55,10 +58,12 @@
       }
     },
     watch: {
-      formData () {
-        console.log(1)
+      'formData.name.val' () {
         this.formatForm()
       }
+    },
+    mounted () {
+      this.formatForm()
     }
   }
 </script>

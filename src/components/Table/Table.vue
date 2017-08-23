@@ -75,14 +75,10 @@
       }
     },
     methods: {
-      formatter (row, column) {
-        return row.address
-      },
       handleSelectionChange (val) {
         this.multipleSelection = val
       },
       handleEdit (index, row) {
-        console.log(index, row)
         this.$emit('edit', row)
       },
       handleDelete (index, row) {
