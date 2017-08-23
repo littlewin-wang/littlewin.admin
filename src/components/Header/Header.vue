@@ -98,8 +98,8 @@
         width: 40px
         img
           border-radius: 9999px
-          height: 35px
-          width: 35px
+          height: 32px
+          width: 32px
           position: absolute
           top: 50%
           left: 50%
