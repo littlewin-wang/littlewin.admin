@@ -56,6 +56,7 @@
     },
     watch: {
       formData () {
+        console.log(1)
         this.formatForm()
       }
     }

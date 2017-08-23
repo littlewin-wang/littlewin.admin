@@ -16,40 +16,30 @@
           type="selection"
           width="55">
         </el-table-column>
-        <el-table-column
-          prop="id"
-          label="ID"
-          width="100">
+
+        <el-table-column type="expand">
+          <template scope="props">
+            <el-form label-position="left" inline class="table-expand">
+              <el-form-item :label="key" v-for="(value, key) in props.row" v-bind:key="key">
+                <span>{{value}}</span>
+              </el-form-item>
+            </el-form>
+          </template>
         </el-table-column>
-        <el-table-column
-          prop="name"
-          label="名称"
-          width="180">
+
+        <el-table-column v-for="(value, key) in columns" v-bind:key="key"
+          :prop="key"
+          :label="value.label"
+          :width="value.width"
+          :sortable="value.sortable"
+          :minWidth="value['min-width']">
         </el-table-column>
-        <el-table-column
-          prop="description"
-          label="描述"
-          min-width="200"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="count"
-          label="文章"
-          width="100"
-        >
-        </el-table-column>
+
         <el-table-column
           label="操作"
-          width="200"
+          width="150"
         >
           <template scope="scope">
-            <el-button
-              size="small"
-              type="info"
-              @click="handleShow(scope.$index, scope.row)"
-            >
-              查看
-            </el-button>
             <el-button
               size="small"
               type="success"
@@ -75,10 +65,12 @@
   export default {
     props: {
       title: String,
+      columns: Object,
       tableData: Array
     },
     data () {
       return {
+        rawData: {},
         multipleSelection: []
       }
     },
@@ -89,11 +81,9 @@
       handleSelectionChange (val) {
         this.multipleSelection = val
       },
-      handleShow (index, row) {
-        console.log(index, row)
-      },
       handleEdit (index, row) {
         console.log(index, row)
+        this.$emit('edit', row)
       },
       handleDelete (index, row) {
         console.log(index, row)
@@ -102,7 +92,7 @@
   }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus" scope>
   .table
     background: #eef1f6
     .table-header
