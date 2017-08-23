@@ -20,6 +20,9 @@ export default {
   CreateTagAPI (params) {
     return axios.post(API_ROOT.concat('tag'), params)
   },
+  GetTagList () {
+    return axios.get(API_ROOT.concat('tag'))
+  },
   // site info
   SiteInfoAPI () {
     return axios.get(API_ROOT.concat('site'))

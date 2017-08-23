@@ -4,22 +4,24 @@
       <LForm :title="'添加标签'" :formData="tagInfo" @confirm="confirmTag"></LForm>
     </div>
     <div class="tag-list">
-      123
+      <LTable :title="'标签管理'" :tableData="tags"></LTable>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import LForm from '@/components/Form/Form.vue'
+  import LTable from '@/components/Table/Table.vue'
   import { mapGetters, mapActions } from 'vuex'
   import API from '@/api/index'
 
   export default {
     components: {
-      LForm
+      LForm,
+      LTable
     },
     computed: {
-      ...mapGetters(['site', 'user']),
+      ...mapGetters(['tags']),
       tagInfo () {
         return {
           name: {
@@ -41,7 +43,7 @@
       }
     },
     methods: {
-      ...mapActions(['getSite', 'getUser']),
+      ...mapActions(['getTags']),
       confirmTag (data) {
         let tagInfo = {
           name: data.name,
@@ -54,12 +56,12 @@
             message: '添加标签成功',
             type: 'success'
           })
+          this.getTags()
         })
       }
     },
     mounted () {
-      this.getSite()
-      this.getUser()
+      this.getTags()
     }
   }
 </script>

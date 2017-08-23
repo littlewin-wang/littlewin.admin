@@ -10,3 +10,7 @@ export const SET_SITE = (state, site) => {
 export const SET_USER = (state, user) => {
   state.user = user
 }
+
+export const SET_TAGS = (state, tags) => {
+  state.tags = tags
+}

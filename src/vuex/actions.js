@@ -20,3 +20,11 @@ export const getUser = ({ commit }) => {
     }
   })
 }
+
+export const getTags = ({ commit }) => {
+  API.GetTagList().then(res => {
+    if (res.data.success) {
+      commit('SET_TAGS', res.data.data.tags)
+    }
+  })
+}

@@ -15,7 +15,8 @@ export default new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
   state: {
     site: {},
-    user: {}
+    user: {},
+    tags: []
   },
   getters,
   mutations,
