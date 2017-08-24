@@ -4,7 +4,7 @@
       {{title}}
     </div>
     <div class="form-content">
-      <el-form ref="form" :model="form" :rules="rules" label-position="left" label-width="120px">
+      <el-form ref="form" :model="form" :rules="rules" label-position="top" label-width="120px">
         <el-form-item v-for="(value, key) in formData" v-bind:key="key" :label="value.label" :prop="key">
           <el-input :type="value.type" :rows=4 v-model="form[key]" :disabled="['_id','id'].indexOf(key)!==-1"></el-input>
         </el-form-item>
@@ -58,7 +58,7 @@
       }
     },
     watch: {
-      'formData.name.val' () {
+      formData () {
         this.formatForm()
       }
     },

@@ -83,11 +83,11 @@
         return {
           id: {
             label: 'ID',
-            width: '100'
+            width: '60'
           },
           name: {
             label: '名称',
-            width: '180'
+            width: '120'
           },
           description: {
             label: '描述',
@@ -171,9 +171,9 @@
   .tag-container
     display: flex
     .tag-form
-      flex: 0 360px
+      flex: 1 1 360px
       padding: 10px
     .tag-list
-      flex: 1
+      flex: 1 1 auto
       padding: 10px
 </style>
