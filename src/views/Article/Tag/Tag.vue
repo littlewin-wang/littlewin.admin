@@ -143,15 +143,19 @@
         this.dialogVisible = true
       },
       handleRemove (data) {
-        API.RemoveTagAPI(data._id).then(() => {
-          this.$message({
-            message: '删除标签成功',
-            type: 'success'
+        this.$confirm('确认删除？')
+          .then(_ => {
+            API.RemoveTagAPI(data._id).then(() => {
+              this.$message({
+                message: '删除标签成功',
+                type: 'success'
+              })
+              this.getTags()
+            }).catch(err => {
+              this.$message.error(err.response.data.message)
+            })
           })
-          this.getTags()
-        }).catch(err => {
-          this.$message.error(err.response.data.message)
-        })
+          .catch(_ => {})
       },
       handleClose (done) {
         this.$confirm('确认关闭？')
@@ -176,4 +180,5 @@
     .tag-list
       flex: 1 1 auto
       padding: 10px
+      overflow-y: scroll
 </style>
