@@ -9,6 +9,7 @@
         :columns="tagColumns"
         :tableData="tags"
         @edit="handleEdit"
+        @remove="handleRemove"
       >
       </LTable>
     </div>
@@ -119,12 +120,10 @@
         })
       },
       editTag (data) {
-        console.log(data._id)
         let tagInfo = {
           name: data.name,
           description: data.description
         }
-        console.log(tagInfo)
         API.ModifyTagAPI(data._id, tagInfo).then(() => {
           this.$message({
             message: '修改标签成功',
@@ -142,6 +141,17 @@
         }
 
         this.dialogVisible = true
+      },
+      handleRemove (data) {
+        API.RemoveTagAPI(data._id).then(() => {
+          this.$message({
+            message: '删除标签成功',
+            type: 'success'
+          })
+          this.getTags()
+        }).catch(err => {
+          this.$message.error(err.response.data.message)
+        })
       },
       handleClose (done) {
         this.$confirm('确认关闭？')

@@ -82,7 +82,7 @@
         this.$emit('edit', row)
       },
       handleDelete (index, row) {
-        console.log(index, row)
+        this.$emit('remove', row)
       }
     }
   }

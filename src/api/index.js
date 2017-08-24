@@ -26,6 +26,9 @@ export default {
   ModifyTagAPI (id, params) {
     return axios.put(API_ROOT.concat('tag/').concat(id), params)
   },
+  RemoveTagAPI (id) {
+    return axios.delete(API_ROOT.concat('tag/').concat(id))
+  },
   // site info
   SiteInfoAPI () {
     return axios.get(API_ROOT.concat('site'))
