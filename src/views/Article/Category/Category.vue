@@ -1,13 +1,13 @@
 <template>
-  <div class="tag-container">
-    <div class="tag-form">
-      <LForm :title="'添加标签'" :formData="tagInfo" @confirm="confirmTag"></LForm>
+  <div class="cate-container">
+    <div class="cate-form">
+      <LForm :title="'添加分类'" :formData="categoryInfo" @confirm="confirmCategory"></LForm>
     </div>
-    <div class="tag-list">
+    <div class="cate-list">
       <LTable
-        :title="'标签管理'"
-        :columns="tagColumns"
-        :tableData="tags"
+        :title="'分类管理'"
+        :columns="CategoryColumns"
+        :tableData="categories"
         @deleteList="handleDeleteList"
         @search="handleSearch"
         @edit="handleEdit"
@@ -19,7 +19,7 @@
       :visible.sync="dialogVisible"
       size="tiny"
       :before-close="handleClose">
-      <LForm :title="formTitle" :formData="tagEdit" @confirm="editTag"></LForm>
+      <LForm :title="formTitle" :formData="categoryEdit" @confirm="editCategory"></LForm>
     </el-dialog>
   </div>
 </template>
@@ -38,15 +38,28 @@
     data () {
       return {
         formTitle: '',
-        tagInfo: {
+        dialogVisible: false
+      }
+    },
+    computed: {
+      ...mapGetters(['categories']),
+      categoryInfo () {
+        return {
           name: {
             val: '',
-            label: '标签名称',
+            label: '分类名称',
             type: 'input',
             rule: [
-              { required: true, message: '请输入标签名称', trigger: 'blur' },
-              { type: 'string', message: '请正确输入标签名称', trigger: 'blur' }
+              { required: true, message: '请输入分类名称', trigger: 'blur' },
+              { type: 'string', message: '请正确输入分类名称', trigger: 'blur' }
             ]
+          },
+          super: {
+            val: '',
+            label: '父分类',
+            type: 'select',
+            placeholder: '请选择父分类',
+            options: this.categories
           },
           description: {
             val: '',
@@ -54,8 +67,10 @@
             type: 'textarea',
             rule: { type: 'string', message: '请正确输入标签描述', trigger: 'blur' }
           }
-        },
-        tagEdit: {
+        }
+      },
+      categoryEdit () {
+        return {
           _id: {
             val: '',
             label: 'ID',
@@ -63,12 +78,19 @@
           },
           name: {
             val: '',
-            label: '标签名称',
+            label: '分类名称',
             type: 'input',
             rule: [
-              { required: true, message: '请输入标签名称', trigger: 'blur' },
-              { type: 'string', message: '请正确输入标签名称', trigger: 'blur' }
+              { required: true, message: '请输入分类名称', trigger: 'blur' },
+              { type: 'string', message: '请正确输入分类名称', trigger: 'blur' }
             ]
+          },
+          super: {
+            val: '',
+            label: '父分类',
+            type: 'select',
+            placeholder: '请选择父分类',
+            options: this.categories
           },
           description: {
             val: '',
@@ -76,13 +98,9 @@
             type: 'textarea',
             rule: { type: 'string', message: '请正确输入标签描述', trigger: 'blur' }
           }
-        },
-        dialogVisible: false
-      }
-    },
-    computed: {
-      ...mapGetters(['tags']),
-      tagColumns () {
+        }
+      },
+      CategoryColumns () {
         return {
           id: {
             label: 'ID',
@@ -105,35 +123,37 @@
       }
     },
     methods: {
-      ...mapActions(['getTags']),
-      confirmTag (data) {
-        let tagInfo = {
+      ...mapActions(['getCategories']),
+      confirmCategory (data) {
+        let categoryInfo = {
           name: data.name,
+          super: data.super,
           description: data.description
         }
 
-        API.CreateTagAPI(tagInfo).then(() => {
+        API.CreateCateAPI(categoryInfo).then(() => {
           this.$message({
             message: '添加标签成功',
             type: 'success'
           })
-          this.getTags()
+          this.getCategories()
         }).catch(err => {
           this.$message.error(err.response.data.message)
         })
       },
-      editTag (data) {
-        let tagInfo = {
+      editCategory (data) {
+        let categoryInfo = {
           name: data.name,
+          super: data.super,
           description: data.description
         }
-        API.ModifyTagAPI(data._id, tagInfo).then(() => {
+        API.ModifyCateAPI(data._id, categoryInfo).then(() => {
           this.$message({
-            message: '修改标签成功',
+            message: '修改分类成功',
             type: 'success'
           })
           this.dialogVisible = false
-          this.getTags()
+          this.getCategories()
         }).catch(err => {
           this.$message.error(err.response.data.message)
         })
@@ -154,25 +174,30 @@
           .catch(_ => {})
       },
       handleSearch (str) {
-        this.getTags(str)
+        this.getCategories(str)
       },
       handleEdit (data) {
-        for (let key in this.tagEdit) {
-          this.tagEdit[key]['val'] = data[key] ? data[key] : ''
+        for (let key in this.categoryEdit) {
+          this.categoryEdit[key]['val'] = data[key] ? data[key] : ''
+          if (key === 'super') {
+            this.categoryEdit['super'].options = this.categories.filter(category => {
+              return category._id !== data._id
+            })
+          }
         }
 
-        this.formTitle = '修改标签: ' + this.tagEdit.name.val
+        this.formTitle = '修改分类: ' + this.categoryEdit.name.val
         this.dialogVisible = true
       },
       handleDelete (data) {
         this.$confirm('确认删除？')
           .then(_ => {
-            API.DeleteTagAPI(data._id).then(() => {
+            API.DeleteCateAPI(data._id).then(() => {
               this.$message({
-                message: '删除标签成功',
+                message: '删除分类成功',
                 type: 'success'
               })
-              this.getTags()
+              this.getCategories()
             }).catch(err => {
               this.$message.error(err.response.data.message)
             })
@@ -189,18 +214,18 @@
       }
     },
     mounted () {
-      this.getTags()
+      this.getCategories()
     }
   }
 </script>
 
 <style lang="stylus" scoped>
-  .tag-container
+  .cate-container
     display: flex
-    .tag-form
+    .cate-form
       flex: 1 1 360px
       padding: 10px
-    .tag-list
+    .cate-list
       flex: 1 1 auto
       padding: 10px
       overflow-y: scroll

@@ -14,3 +14,7 @@ export const SET_USER = (state, user) => {
 export const SET_TAGS = (state, tags) => {
   state.tags = tags
 }
+
+export const SET_CATEGORIES = (state, categories) => {
+  state.categories = categories
+}

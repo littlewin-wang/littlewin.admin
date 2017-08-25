@@ -7,6 +7,7 @@ import Site from '@/views/Site/Site.vue'
 
 import Article from '@/views/Article/Article.vue'
 import Tag from '@/views/Article/Tag/Tag.vue'
+import Category from '@/views/Article/Category/Category.vue'
 
 Vue.use(Router)
 
@@ -37,6 +38,14 @@ export default new Router({
               path: 'tag',
               name: '标签管理',
               component: Tag,
+              meta: {
+                requiresAuth: true
+              }
+            },
+            {
+              path: 'category',
+              name: '分类管理',
+              component: Category,
               meta: {
                 requiresAuth: true
               }

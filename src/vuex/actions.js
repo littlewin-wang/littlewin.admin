@@ -28,3 +28,11 @@ export const getTags = ({ commit }, str) => {
     }
   })
 }
+
+export const getCategories = ({ commit }, str) => {
+  API.GetCateList(str).then(res => {
+    if (res.data.success) {
+      commit('SET_CATEGORIES', res.data.data.categories)
+    }
+  })
+}

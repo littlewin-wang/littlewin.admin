@@ -16,7 +16,8 @@ export default new Vuex.Store({
   state: {
     site: {},
     user: {},
-    tags: []
+    tags: [],
+    categories: []
   },
   getters,
   mutations,

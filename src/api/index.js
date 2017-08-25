@@ -32,6 +32,22 @@ export default {
   DeleteTagAPI (id) {
     return axios.delete(API_ROOT.concat('tag/').concat(id))
   },
+  // category api
+  CreateCateAPI (params) {
+    return axios.post(API_ROOT.concat('category'), params)
+  },
+  GetCateList (keyword = '') {
+    return axios.get(API_ROOT.concat(`category?keyword=${keyword}`))
+  },
+  DeleteCateListAPI (params) {
+    return axios.delete(API_ROOT.concat('category'), {data: params})
+  },
+  ModifyCateAPI (id, params) {
+    return axios.put(API_ROOT.concat('category/').concat(id), params)
+  },
+  DeleteCateAPI (id) {
+    return axios.delete(API_ROOT.concat('category/').concat(id))
+  },
   // site info
   SiteInfoAPI () {
     return axios.get(API_ROOT.concat('site'))
