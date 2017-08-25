@@ -20,13 +20,16 @@ export default {
   CreateTagAPI (params) {
     return axios.post(API_ROOT.concat('tag'), params)
   },
-  GetTagList () {
-    return axios.get(API_ROOT.concat('tag'))
+  GetTagList (keyword = '') {
+    return axios.get(API_ROOT.concat(`tag?keyword=${keyword}`))
+  },
+  DeleteTagListAPI (params) {
+    return axios.delete(API_ROOT.concat('tag'), {data: params})
   },
   ModifyTagAPI (id, params) {
     return axios.put(API_ROOT.concat('tag/').concat(id), params)
   },
-  RemoveTagAPI (id) {
+  DeleteTagAPI (id) {
     return axios.delete(API_ROOT.concat('tag/').concat(id))
   },
   // site info

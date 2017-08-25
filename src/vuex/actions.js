@@ -21,8 +21,8 @@ export const getUser = ({ commit }) => {
   })
 }
 
-export const getTags = ({ commit }) => {
-  API.GetTagList().then(res => {
+export const getTags = ({ commit }, str) => {
+  API.GetTagList(str).then(res => {
     if (res.data.success) {
       commit('SET_TAGS', res.data.data.tags)
     }

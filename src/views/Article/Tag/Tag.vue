@@ -8,8 +8,10 @@
         :title="'标签管理'"
         :columns="tagColumns"
         :tableData="tags"
+        @deleteList="handleDeleteList"
+        @search="handleSearch"
         @edit="handleEdit"
-        @remove="handleRemove"
+        @delete="handleDelete"
       >
       </LTable>
     </div>
@@ -135,6 +137,24 @@
           this.$message.error(err.response.data.message)
         })
       },
+      handleDeleteList (data) {
+        this.$confirm('确认删除？')
+          .then(_ => {
+            API.DeleteTagListAPI({tags: data}).then(() => {
+              this.$message({
+                message: '批量删除标签成功',
+                type: 'success'
+              })
+              this.getTags()
+            }).catch(err => {
+              this.$message.error(err.response.data.message)
+            })
+          })
+          .catch(_ => {})
+      },
+      handleSearch (str) {
+        this.getTags(str)
+      },
       handleEdit (data) {
         for (let key in this.tagEdit) {
           this.tagEdit[key]['val'] = data[key] ? data[key] : ''
@@ -142,10 +162,10 @@
 
         this.dialogVisible = true
       },
-      handleRemove (data) {
+      handleDelete (data) {
         this.$confirm('确认删除？')
           .then(_ => {
-            API.RemoveTagAPI(data._id).then(() => {
+            API.DeleteTagAPI(data._id).then(() => {
               this.$message({
                 message: '删除标签成功',
                 type: 'success'

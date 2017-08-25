@@ -3,6 +3,32 @@
     <div class="table-header">
       {{title}}
     </div>
+    <div class="table-panel">
+      <div class="panel-left">
+        <el-button-group>
+          <el-button icon="more" size="small" @click="handleRefresh">刷新列表</el-button>
+          <el-button icon="delete" size="small" @click="handleReset">清空搜索词</el-button>
+          <el-dropdown>
+            <el-button icon="plus" size="small" :disabled="this.multipleSelection.length===0">
+              批量操作<i class="el-icon-caret-bottom el-icon--right"></i>
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item @click.native="handleDeleteList">批量删除</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </el-button-group>
+      </div>
+      <div class="panel-right">
+        <el-input
+          placeholder="搜索相关标签"
+          autosize
+          icon="search"
+          v-model="searchInput"
+          @change="handleSearch"
+          :on-icon-click="handleSearch">
+        </el-input>
+      </div>
+    </div>
     <div class="table-content">
       <el-table
         ref="multipleTable"
@@ -70,11 +96,25 @@
     },
     data () {
       return {
+        searchInput: '',
         rawData: {},
         multipleSelection: []
       }
     },
     methods: {
+      handleRefresh () {
+        this.$emit('search', this.searchInput)
+      },
+      handleReset () {
+        this.searchInput = ''
+        this.$emit('search', this.searchInput)
+      },
+      handleDeleteList () {
+        this.$emit('deleteList', this.multipleSelection)
+      },
+      handleSearch () {
+        this.$emit('search', this.searchInput)
+      },
       handleSelectionChange (val) {
         this.multipleSelection = val
       },
@@ -82,7 +122,7 @@
         this.$emit('edit', row)
       },
       handleDelete (index, row) {
-        this.$emit('remove', row)
+        this.$emit('delete', row)
       }
     }
   }
@@ -97,6 +137,15 @@
       line-height: 40px
       background: #99A9BF
       border-radius: 4px 4px 0 0
+    .table-panel
+      padding: 20px 20px 0 20px
+      .panel-left
+        display: inline-block
+        vertical-align: top
+      .panel-right
+        display: inline-block
+        float: right
+        vertical-align: top
     .table-content
       padding: 20px 20px 10px 20px
 </style>
