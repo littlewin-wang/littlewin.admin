@@ -1,5 +1,5 @@
 <template>
-  <el-menu default-active="1-4-1" theme="dark" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
+  <el-menu :default-active="route.path" theme="dark" router @open="handleOpen" @close="handleClose" :collapse="isCollapse">
     <div class="sidebar-title">
       <div v-if="!isCollapse">
         <span>Littlewin</span> Admin
@@ -15,28 +15,27 @@
         <div class="tongue">{{user.slogan}}</div>
       </el-tooltip>
     </div>
-    <el-submenu index="1">
-      <template slot="title">
-        <i class="el-icon-message"></i>
-        <span slot="title">导航一</span>
-      </template>
-      <el-menu-item index="1-1">选项1</el-menu-item>
-      <el-menu-item index="1-2">选项2</el-menu-item>
-      <el-menu-item index="1-4-1">选项1</el-menu-item>
-    </el-submenu>
-    <el-menu-item index="2">
-      <i class="el-icon-menu"></i>
-      <span slot="title">导航二</span>
-    </el-menu-item>
-    <el-menu-item index="3">
-      <i class="el-icon-setting"></i>
-      <span slot="title">导航三</span>
-    </el-menu-item>
+    <div class="sidebar-menu" v-for="routes in routerMap" v-if="routes.path==='/'">
+      <div class="sidebar-menu-item" v-for="route in routes.children" v-bind:key="route.path">
+        <el-submenu v-if="route.children" :index="route.meta.fullPath">
+          <template slot="title">
+            <i class="el-icon-message"></i>
+            <span slot="title">{{route.name}}</span>
+          </template>
+          <el-menu-item :index="subRoute.meta.fullPath" v-for="subRoute in route.children" v-bind:key="subRoute.path">{{subRoute.name}}</el-menu-item>
+        </el-submenu>
+        <el-menu-item v-else :index="route.meta.fullPath">
+          <i class="el-icon-menu"></i>
+          <span slot="title">{{route.name}}</span>
+        </el-menu-item>
+      </div>
+    </div>
   </el-menu>
 </template>
 
 <script type="text/ecmascript-6">
   import SidebarItem from './components/SideBarItem.vue'
+  import { mapGetters } from 'vuex'
   export default {
     components: { SidebarItem },
     props: {
@@ -50,16 +49,10 @@
       handleClose (key, keyPath) {
         console.log(key, keyPath)
       }
+    },
+    computed: {
+      ...mapGetters(['routerMap', 'route'])
     }
-//    computed: {
-//      ...mapGetters([
-//        'permission_routers',
-//        'sidebar'
-//      ]),
-//      isCollapse() {
-//        return !this.sidebar.opened
-//      }
-//    }
   }
 </script>
 

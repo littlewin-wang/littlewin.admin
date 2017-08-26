@@ -36,6 +36,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import { routerMap } from '@/router'
   import SideBar from '@/components/SideBar/SideBar.vue'
   import LHeader from '@/components/Header/Header.vue'
   import { mapGetters, mapActions } from 'vuex'
@@ -54,12 +55,13 @@
       ...mapGetters(['user'])
     },
     methods: {
-      ...mapActions(['getUser']),
+      ...mapActions(['setRouteMap', 'getUser']),
       handleCollapse (isCollapse) {
         this.isCollapse = isCollapse
       }
     },
     mounted () {
+      this.setRouteMap(routerMap)
       this.getUser()
     }
   }

@@ -5,6 +5,10 @@
 
 import API from '@/api/index'
 
+export const setRouteMap = ({ commit }, routeMap) => {
+  commit('SET_ROUTE_MAP', routeMap)
+}
+
 export const getSite = ({ commit }) => {
   API.SiteInfoAPI().then(res => {
     if (res.data.success) {

@@ -11,50 +11,56 @@ import Category from '@/views/Article/Category/Category.vue'
 
 Vue.use(Router)
 
-export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'Main',
-      component: Main,
-      children: [
-        {
-          path: 'site',
-          name: '全局设置',
-          component: Site,
-          meta: {
-            requiresAuth: true
-          }
-        },
-        {
-          path: 'article',
-          name: '文章设置',
-          component: Article,
-          meta: {
-            requiresAuth: true
-          },
-          children: [
-            {
-              path: 'tag',
-              name: '标签管理',
-              component: Tag,
-              meta: {
-                requiresAuth: true
-              }
-            },
-            {
-              path: 'category',
-              name: '分类管理',
-              component: Category,
-              meta: {
-                requiresAuth: true
-              }
-            }
-          ]
+export const routerMap = [
+  {
+    path: '/',
+    name: '主页面',
+    component: Main,
+    children: [
+      {
+        path: 'site',
+        name: '全局设置',
+        component: Site,
+        meta: {
+          fullPath: '/site',
+          requiresAuth: true
         }
-      ]
-    }
-  ],
+      },
+      {
+        path: 'article',
+        name: '文章设置',
+        component: Article,
+        meta: {
+          fullPath: '/article',
+          requiresAuth: true
+        },
+        children: [
+          {
+            path: 'tag',
+            name: '标签管理',
+            component: Tag,
+            meta: {
+              fullPath: '/article/tag',
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'category',
+            name: '分类管理',
+            component: Category,
+            meta: {
+              fullPath: '/article/category',
+              requiresAuth: true
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
+
+export default new Router({
+  routes: routerMap,
   mode: 'history',
   linkActiveClass: 'active'
 })
