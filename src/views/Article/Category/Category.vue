@@ -8,6 +8,7 @@
         :title="'分类管理'"
         :columns="CategoryColumns"
         :tableData="categories"
+        :disableBatch="true"
         @deleteList="handleDeleteList"
         @search="handleSearch"
         @edit="handleEdit"

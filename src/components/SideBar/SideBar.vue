@@ -113,5 +113,5 @@
       text-overflow: ellipsis
 
   .el-menu:not(.el-menu--collapse)
-    width: 180px
+    width: 200px
 </style>

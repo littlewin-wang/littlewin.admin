@@ -9,7 +9,7 @@
           <el-button icon="more" size="small" @click="handleRefresh">刷新列表</el-button>
           <el-button icon="delete" size="small" @click="handleReset">清空搜索词</el-button>
           <el-dropdown>
-            <el-button icon="plus" size="small" :disabled="this.multipleSelection.length===0">
+            <el-button icon="plus" size="small" :disabled="this.multipleSelection.length===0||disableBatch">
               批量操作<i class="el-icon-caret-bottom el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">
@@ -92,7 +92,8 @@
     props: {
       title: String,
       columns: Object,
-      tableData: Array
+      tableData: Array,
+      disableBatch: Boolean
     },
     data () {
       return {
