@@ -60,6 +60,9 @@
     watch: {
       title () {
         this.formatForm()
+      },
+      formData () {
+        this.formatForm()
       }
     },
     mounted () {

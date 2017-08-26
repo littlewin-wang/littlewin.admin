@@ -19,13 +19,13 @@
       <div class="sidebar-menu-item" v-for="route in routes.children" v-bind:key="route.path">
         <el-submenu v-if="route.children" :index="route.meta.fullPath">
           <template slot="title">
-            <i class="el-icon-message"></i>
+            <i :class="route.meta.icon"></i>
             <span slot="title">{{route.name}}</span>
           </template>
           <el-menu-item :index="subRoute.meta.fullPath" v-for="subRoute in route.children" v-bind:key="subRoute.path">{{subRoute.name}}</el-menu-item>
         </el-submenu>
         <el-menu-item v-else :index="route.meta.fullPath">
-          <i class="el-icon-menu"></i>
+          <i :class="route.meta.icon"></i>
           <span slot="title">{{route.name}}</span>
         </el-menu-item>
       </div>
@@ -34,10 +34,8 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import SidebarItem from './components/SideBarItem.vue'
   import { mapGetters } from 'vuex'
   export default {
-    components: { SidebarItem },
     props: {
       isCollapse: Boolean,
       user: Object

@@ -22,6 +22,7 @@ export const routerMap = [
         name: '全局设置',
         component: Site,
         meta: {
+          icon: 'el-icon-setting',
           fullPath: '/site',
           requiresAuth: true
         }
@@ -31,6 +32,7 @@ export const routerMap = [
         name: '文章设置',
         component: Article,
         meta: {
+          icon: 'el-icon-star-on',
           fullPath: '/article',
           requiresAuth: true
         },
