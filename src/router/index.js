@@ -8,6 +8,7 @@ import Site from '@/views/Site/Site.vue'
 import Article from '@/views/Article/Article.vue'
 import Tag from '@/views/Article/Tag/Tag.vue'
 import Category from '@/views/Article/Category/Category.vue'
+import New from '@/views/Article/New/New.vue'
 
 Vue.use(Router)
 
@@ -37,6 +38,15 @@ export const routerMap = [
           requiresAuth: true
         },
         children: [
+          {
+            path: 'new',
+            name: '写文章',
+            component: New,
+            meta: {
+              fullPath: '/article/new',
+              requiresAuth: true
+            }
+          },
           {
             path: 'tag',
             name: '标签管理',

@@ -82,14 +82,4 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-  .form
-    background: #eef1f6
-    .form-header
-      padding-left: 1rem
-      height: 40px
-      line-height: 40px
-      background: #99A9BF
-      border-radius: 4px 4px 0 0
-    .form-content
-      padding: 20px 20px 10px 20px
 </style>
