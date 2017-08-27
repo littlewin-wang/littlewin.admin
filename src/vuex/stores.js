@@ -14,7 +14,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     global: {
-      routerMap: []
+      routerMap: [],
+      upToken: ''
     },
     site: {},
     user: {},

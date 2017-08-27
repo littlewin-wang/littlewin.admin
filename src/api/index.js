@@ -24,7 +24,7 @@ export default {
     return axios.get(API_ROOT.concat(`tag?keyword=${keyword}`))
   },
   DeleteTagListAPI (params) {
-    return axios.delete(API_ROOT.concat('tag'), {data: params})
+    return axios.delete(API_ROOT.concat('tag'), { data: params })
   },
   ModifyTagAPI (id, params) {
     return axios.put(API_ROOT.concat('tag/').concat(id), params)
@@ -40,7 +40,7 @@ export default {
     return axios.get(API_ROOT.concat(`category?keyword=${keyword}`))
   },
   DeleteCateListAPI (params) {
-    return axios.delete(API_ROOT.concat('category'), {data: params})
+    return axios.delete(API_ROOT.concat('category'), { data: params })
   },
   ModifyCateAPI (id, params) {
     return axios.put(API_ROOT.concat('category/').concat(id), params)
@@ -54,6 +54,10 @@ export default {
   },
   ModifySiteInfoAPI (params) {
     return axios.put(API_ROOT.concat('site'), params)
+  },
+  // qiniu token
+  GetQiniuAPI () {
+    return axios.get(API_ROOT.concat('qiniu'))
   },
   // git repos
   GithubReposAPI () {

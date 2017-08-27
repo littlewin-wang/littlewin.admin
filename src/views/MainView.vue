@@ -28,7 +28,8 @@
           © 2017 Littlewin.Admin
         </div>
         <div class="else">
-          Create with <span class="red"> ❤ </span>
+          Create with
+          <span class="red"> ❤ </span>
         </div>
       </div>
     </div>
@@ -36,35 +37,35 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import { routerMap } from '@/router'
-  import SideBar from '@/components/SideBar/SideBar.vue'
-  import LHeader from '@/components/Header/Header.vue'
-  import { mapGetters, mapActions } from 'vuex'
+import { routerMap } from '@/router'
+import SideBar from '@/components/SideBar/SideBar.vue'
+import LHeader from '@/components/Header/Header.vue'
+import { mapGetters, mapActions } from 'vuex'
 
-  export default {
-    components: {
-      SideBar,
-      LHeader
-    },
-    data () {
-      return {
-        isCollapse: false
-      }
-    },
-    computed: {
-      ...mapGetters(['user'])
-    },
-    methods: {
-      ...mapActions(['setRouteMap', 'getUser']),
-      handleCollapse (isCollapse) {
-        this.isCollapse = isCollapse
-      }
-    },
-    mounted () {
-      this.setRouteMap(routerMap)
-      this.getUser()
+export default {
+  components: {
+    SideBar,
+    LHeader
+  },
+  data () {
+    return {
+      isCollapse: false
     }
+  },
+  computed: {
+    ...mapGetters(['user'])
+  },
+  methods: {
+    ...mapActions(['setRouteMap', 'getUser']),
+    handleCollapse (isCollapse) {
+      this.isCollapse = isCollapse
+    }
+  },
+  mounted () {
+    this.setRouteMap(routerMap)
+    this.getUser()
   }
+}
 </script>
 
 <style lang="stylus" scoped>

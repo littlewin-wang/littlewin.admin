@@ -9,6 +9,15 @@ export const setRouteMap = ({ commit }, routeMap) => {
   commit('SET_ROUTE_MAP', routeMap)
 }
 
+export const setUpToken = ({ commit }) => {
+  API.GetQiniuAPI().then(res => {
+    if (res.data.success) {
+      console.log(res.data)
+      commit('SET_UP_TOKEN', res.data.data.upToken)
+    }
+  })
+}
+
 export const getSite = ({ commit }) => {
   API.SiteInfoAPI().then(res => {
     if (res.data.success) {
