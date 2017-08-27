@@ -15,7 +15,7 @@
         <div class="tongue">{{user.slogan}}</div>
       </el-tooltip>
     </div>
-    <div class="sidebar-menu" v-for="routes in routerMap" v-if="routes.path==='/'">
+    <div class="sidebar-menu" v-for="routes in routerMap" v-bind:key="routes.path" v-if="routes.path==='/'">
       <div class="sidebar-menu-item" v-for="route in routes.children" v-bind:key="route.path">
         <el-submenu v-if="route.children" :index="route.meta.fullPath">
           <template slot="title">
@@ -34,24 +34,24 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import { mapGetters } from 'vuex'
-  export default {
-    props: {
-      isCollapse: Boolean,
-      user: Object
+import { mapGetters } from 'vuex'
+export default {
+  props: {
+    isCollapse: Boolean,
+    user: Object
+  },
+  methods: {
+    handleOpen (key, keyPath) {
+      console.log(key, keyPath)
     },
-    methods: {
-      handleOpen (key, keyPath) {
-        console.log(key, keyPath)
-      },
-      handleClose (key, keyPath) {
-        console.log(key, keyPath)
-      }
-    },
-    computed: {
-      ...mapGetters(['routerMap', 'route'])
+    handleClose (key, keyPath) {
+      console.log(key, keyPath)
     }
+  },
+  computed: {
+    ...mapGetters(['routerMap', 'route'])
   }
+}
 </script>
 
 <style lang="stylus" scoped>

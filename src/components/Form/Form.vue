@@ -10,6 +10,8 @@
             <el-option v-for="option in value.options" v-bind:key="option.label" :label="option.name" :value="option._id"></el-option>
           </el-select>
           <Avatar v-else-if="value.type==='avatar'" :url="form[key]" :upToken="value.upToken" @upload="handleUpload"></Avatar>
+          <Tags v-else-if="value.type==='tag'" :tag="form[key]" :tagsList="value.default" @select="handleSelect"></Tags>
+          <markdown-editor v-else-if="value.type==='markdown'" v-model="form[key]" :configs="value.configs" preview-class="markdown-body"></markdown-editor>
           <el-input :type="value.type" :rows=4 v-model="form[key]" :disabled="['_id','id'].indexOf(key)!==-1" v-else></el-input>
         </el-form-item>
         <el-form-item>
@@ -22,10 +24,16 @@
 
 <script type="text/ecmascript-6">
 import Avatar from '@/components/Avatar/Avatar.vue'
+import Tags from '@/components/Tags/Tags.vue'
+import { markdownEditor } from 'vue-simplemde'
+require.ensure([], () => require('github-markdown-css'), 'markdown-style')
+import 'github-markdown-css'
 
 export default {
   components: {
-    Avatar
+    Avatar,
+    Tags,
+    markdownEditor
   },
   props: {
     title: String,
@@ -49,6 +57,9 @@ export default {
     handleUpload (data) {
       let baseUrl = 'http://7xpot0.com1.z0.glb.clouddn.com/'
       this.$set(this.form, 'gravatar', baseUrl + data.key)
+    },
+    handleSelect (data) {
+      this.$set(this.form, 'tag', data)
     },
     formatForm () {
       for (let key in this.formData) {
