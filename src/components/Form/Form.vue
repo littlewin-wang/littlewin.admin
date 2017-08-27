@@ -11,7 +11,7 @@
           </el-select>
           <Avatar v-else-if="value.type==='avatar'" :url="form[key]" :upToken="value.upToken" @upload="handleUpload"></Avatar>
           <Tags v-else-if="value.type==='tag'" :tag="form[key]" :tagsList="value.default" @select="handleSelect"></Tags>
-          <markdown-editor v-else-if="value.type==='markdown'" v-model="form[key]" :configs="value.configs" preview-class="markdown-body"></markdown-editor>
+          <markdown-editor v-else-if="value.type==='markdown'" v-model="form[key]" :configs="value.configs" preview-class="markdown-body" @input="handleInput"></markdown-editor>
           <el-input :type="value.type" :rows=4 v-model="form[key]" :disabled="['_id','id'].indexOf(key)!==-1" v-else></el-input>
         </el-form-item>
         <el-form-item>
@@ -60,6 +60,9 @@ export default {
     },
     handleSelect (data) {
       this.$set(this.form, 'tag', data)
+    },
+    handleInput (data) {
+      localStorage.setItem('content', data)
     },
     formatForm () {
       for (let key in this.formData) {

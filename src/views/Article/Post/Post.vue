@@ -59,9 +59,15 @@ export default {
           default: this.tags
         },
         content: {
-          val: '',
+          val: '我是little',
           label: '文章内容',
-          type: 'markdown'
+          type: 'markdown',
+          configs: {
+            renderingConfig: {
+              codeSyntaxHighlighting: true, // 开启代码高亮
+              highlightingTheme: 'atom-one-light' // 自定义代码高亮主题，可选列表(https://github.com/isagalaev/highlight.js/tree/master/src/styles)
+            }
+          }
         }
       }
     }

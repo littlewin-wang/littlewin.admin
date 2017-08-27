@@ -12,7 +12,7 @@ export default {
   },
   methods: {
     getType (id) {
-      return this.tag.indexOf(id) !== -1 ? '' : 'gray'
+      return (this.tag && this.tag.indexOf(id) !== -1) ? '' : 'gray'
     },
     handleClick (id) {
       let selected = this.tag

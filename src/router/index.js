@@ -8,7 +8,7 @@ import Site from '@/views/Site/Site.vue'
 import Article from '@/views/Article/Article.vue'
 import Tag from '@/views/Article/Tag/Tag.vue'
 import Category from '@/views/Article/Category/Category.vue'
-import New from '@/views/Article/New/New.vue'
+import Post from '@/views/Article/Post/Post.vue'
 
 Vue.use(Router)
 
@@ -39,11 +39,11 @@ export const routerMap = [
         },
         children: [
           {
-            path: 'new',
-            name: '写文章',
-            component: New,
+            path: 'post/:id',
+            name: '文章管理',
+            component: Post,
             meta: {
-              fullPath: '/article/new',
+              fullPath: '/article/post/new',
               requiresAuth: true
             }
           },
