@@ -73,7 +73,7 @@
           gravatar: {
             val: this.user.gravatar || '',
             label: '头像',
-            type: 'input',
+            type: 'avatar',
             rule: { type: 'url', message: '请输入头像', trigger: 'blur' }
           },
           username: {
