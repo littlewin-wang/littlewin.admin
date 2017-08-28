@@ -1,6 +1,9 @@
 <template>
   <div class="tags-container">
     <el-tag class="tag" v-for="tag in tagsList" v-bind:key="tag._id" :type="getType(tag._id)" @click.native="handleClick(tag._id)">{{tag.name}}</el-tag>
+    <div class="tags-update">
+      <el-button :plain="true" type="info" size="small" @click="update">更新标签</el-button>
+    </div>
   </div>
 </template>
 
@@ -8,7 +11,8 @@
 export default {
   props: {
     tag: Array,
-    tagsList: Array
+    tagsList: Array,
+    update: Function
   },
   methods: {
     getType (id) {

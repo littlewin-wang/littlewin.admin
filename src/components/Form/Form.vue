@@ -10,7 +10,7 @@
             <el-option v-for="option in value.options" v-bind:key="option.label" :label="option.name" :value="option._id"></el-option>
           </el-select>
           <Avatar v-else-if="value.type==='avatar'" :url="form[key]" :upToken="value.upToken" @upload="handleUpload"></Avatar>
-          <Tags v-else-if="value.type==='tag'" :tag="form[key]" :tagsList="value.default" @select="handleSelect"></Tags>
+          <Tags v-else-if="value.type==='tag'" :tag="form[key]" :tagsList="value.default" :update="value.update" @select="handleSelect"></Tags>
           <markdown-editor v-else-if="value.type==='markdown'" v-model="form[key]" :configs="value.configs" preview-class="markdown-body" @input="handleInput"></markdown-editor>
           <el-input :type="value.type" :rows=4 v-model="form[key]" :disabled="['_id','id'].indexOf(key)!==-1" v-else></el-input>
         </el-form-item>

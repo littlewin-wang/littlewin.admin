@@ -56,7 +56,8 @@ export default {
           val: ['599d69fb05eb401ce131ecf0'],
           label: '文章标签',
           type: 'tag',
-          default: this.tags
+          default: this.tags,
+          update: this.getTags.bind(this, '')
         },
         content: {
           val: '我是little',
