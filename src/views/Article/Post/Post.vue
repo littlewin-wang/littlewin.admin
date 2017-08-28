@@ -4,6 +4,12 @@
       <LForm :title="'写文章'" :formData="articleInfo" @confirm="confirmArticle"></LForm>
     </div>
     <div class="new-side">
+      <div class="new-tag">
+        <LForm :title="'文章标签'" :formData="categoryInfo" :noSubmit="true"></LForm>
+        <div class="update">
+          <el-button :plain="true" type="info" size="small" @click="updateCategory">更新分类</el-button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -28,7 +34,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['tags']),
+    ...mapGetters(['tags', 'categories']),
     articleInfo () {
       return {
         title: {
@@ -71,20 +77,35 @@ export default {
           }
         }
       }
+    },
+    categoryInfo () {
+      return {
+        category: {
+          val: '',
+          label: '分类',
+          type: 'select',
+          placeholder: '请选择文章分类',
+          options: this.categories
+        }
+      }
     }
   },
   methods: {
-    ...mapActions(['getTags']),
+    ...mapActions(['getTags', 'getCategories']),
     confirmArticle (data) {
       console.log(data.title)
     },
     tagClick () {
       console.log(1)
       this.type = this.type === 'success' ? '' : 'success'
+    },
+    updateCategory () {
+      this.getCategories()
     }
   },
   mounted () {
     this.getTags()
+    this.getCategories()
   }
 }
 </script>
@@ -98,4 +119,9 @@ export default {
     .new-side
       flex: 0 0 360px
       padding: 10px
+      .new-tag
+        .update
+          background: #eef1f6
+          margin-top: -20px
+          padding: 0 20px 10px 20px
 </style>

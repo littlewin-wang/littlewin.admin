@@ -14,7 +14,7 @@
           <markdown-editor v-else-if="value.type==='markdown'" v-model="form[key]" :configs="value.configs" preview-class="markdown-body" @input="handleInput"></markdown-editor>
           <el-input :type="value.type" :rows=4 v-model="form[key]" :disabled="['_id','id'].indexOf(key)!==-1" v-else></el-input>
         </el-form-item>
-        <el-form-item>
+        <el-form-item v-if="!noSubmit">
           <el-button type="primary" @click.native="submitForm('form')">保存</el-button>
         </el-form-item>
       </el-form>
@@ -37,7 +37,8 @@ export default {
   },
   props: {
     title: String,
-    formData: Object
+    formData: Object,
+    noSubmit: Boolean
   },
   data () {
     return {
