@@ -7,7 +7,7 @@
       <el-form ref="form" :model="form" :rules="rules" label-position="top" label-width="120px">
         <el-form-item v-for="(value, key) in formData" v-bind:key="key" :label="value.label" :prop="key">
           <el-select v-model="form[key]" :placeholder="value.placeholder" filterable clearable v-if="value.type==='select'">
-            <el-option v-for="option in value.options" v-bind:key="option.label" :label="option.name" :value="option._id"></el-option>
+            <el-option v-for="option in value.options" v-bind:key="option._id" :label="option.name" :value="option._id"></el-option>
           </el-select>
           <Avatar v-else-if="value.type==='avatar'" :url="form[key]" :upToken="value.upToken" @upload="handleUpload"></Avatar>
           <Tags v-else-if="value.type==='tag'" :tag="form[key]" :tagsList="value.default" :update="value.update" @select="handleSelect"></Tags>

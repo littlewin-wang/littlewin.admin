@@ -13,6 +13,20 @@
       <div class="new-thumb">
         <LForm :title="'文章标签'" :formData="thumbInfo" :noSubmit="true"></LForm>
       </div>
+      <div class="new-publish">
+        <LForm :title="'文章发布'" :formData="publishInfo" :noSubmit="true"></LForm>
+      </div>
+      <div class="new-submit">
+        <div class="form">
+          <div class="form-header">
+            操作
+          </div>
+          <div class="form-content">
+            <el-button class="post-button" type="primary">确认</el-button>
+            <el-button class="post-button" type="danger">重置</el-button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -102,6 +116,54 @@ export default {
           placeholder: '请选择文章缩略图'
         }
       }
+    },
+    publishInfo () {
+      return {
+        state: {
+          val: '',
+          label: '状态',
+          type: 'select',
+          options: [
+            {
+              name: '回收站',
+              _id: -1
+            },
+            {
+              name: '草稿',
+              _id: 0
+            },
+            {
+              name: '发布',
+              _id: 1
+            }
+          ]
+        },
+        pub: {
+          val: '',
+          label: '公开状态',
+          type: 'select',
+          options: [
+            {
+              name: '私密',
+              _id: -1
+            },
+            {
+              name: '加密',
+              _id: 0
+            },
+            {
+              name: '公开',
+              _id: 1
+            }
+          ]
+        },
+        password: {
+          val: '',
+          label: '密码',
+          type: 'input',
+          rule: { pattern: /^[\S]{6,10}$/, message: '密码由6-10位数字，字母或_组成', trigger: 'blur' }
+        }
+      }
     }
   },
   methods: {
@@ -141,4 +203,11 @@ export default {
           background: #eef1f6
           margin-top: -20px
           padding: 0 20px 10px 20px
+      .new-thumb
+        margin-bottom: 20px
+      .new-publish
+        margin-bottom: 20px
+      .new-submit
+        .post-button
+          margin-bottom: 20px
 </style>
