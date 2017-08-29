@@ -11,10 +11,10 @@
         </div>
       </div>
       <div class="new-thumb">
-        <LForm :title="'文章标签'" :formData="thumbInfo" :noSubmit="true"></LForm>
+        <LForm :title="'文章标签'" ref="postThumb" :formData="thumbInfo" :noSubmit="true"></LForm>
       </div>
       <div class="new-publish">
-        <LForm :title="'文章发布'" :formData="publishInfo" :noSubmit="true"></LForm>
+        <LForm :title="'文章发布'" ref="postPublish" :formData="publishInfo" :noSubmit="true"></LForm>
       </div>
       <div class="new-submit">
         <div class="form">
@@ -22,8 +22,8 @@
             操作
           </div>
           <div class="form-content">
-            <el-button class="post-button" type="primary">确认</el-button>
-            <el-button class="post-button" type="danger">重置</el-button>
+            <el-button class="post-button" type="primary" @click.native="confirmPost">确认</el-button>
+            <el-button class="post-button" type="danger" @click.native="resetPost">重置</el-button>
           </div>
         </div>
       </div>
@@ -34,6 +34,7 @@
 <script type="text/ecmascript-6">
 import LForm from '@/components/Form/Form.vue'
 import { mapGetters, mapActions } from 'vuex'
+import API from '@/api/index'
 
 export default {
   components: {
@@ -160,7 +161,7 @@ export default {
         password: {
           val: '',
           label: '密码',
-          type: 'input',
+          type: 'password',
           rule: { pattern: /^[\S]{6,10}$/, message: '密码由6-10位数字，字母或_组成', trigger: 'blur' }
         }
       }
@@ -178,6 +179,37 @@ export default {
     updateCategory () {
       this.getCategories()
       console.log(this.$refs.postBasic.form)
+    },
+    confirmPost () {
+      this.$refs.postBasic.$refs['form'].validate((valid) => {
+        if (valid) {
+          if (this.$refs.postBasic.form.content) {
+            console.log(this.$refs.postBasic.form)
+          } else {
+            this.$message.error('文章内容为空')
+            return false
+          }
+        } else {
+          this.$message.error('文章信息输入有错')
+          return false
+        }
+      })
+
+      let obj = Object.assign({}, this.$refs.postBasic.form, this.$refs.postCategory.form, this.$refs.postThumb.form, this.$refs.postPublish.form)
+
+      console.log(obj)
+      this.$confirm('确认文章内容')
+        .then(_ => {
+          API.CreateArticleAPI(obj).then((res) => {
+            this.$message({
+              message: '文章添加成功',
+              type: 'success'
+            })
+          }).catch(err => {
+            this.$message.error(err.response.data.message)
+          })
+        })
+        .catch(_ => { })
     }
   },
   mounted () {
