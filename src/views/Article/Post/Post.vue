@@ -1,14 +1,17 @@
 <template>
   <div class="new-container">
     <div class="new-content">
-      <LForm :title="'写文章'" :formData="articleInfo" @confirm="confirmArticle"></LForm>
+      <LForm :title="'写文章'" ref="postBasic" :formData="articleInfo" @confirm="confirmArticle"></LForm>
     </div>
     <div class="new-side">
-      <div class="new-tag">
-        <LForm :title="'文章标签'" :formData="categoryInfo" :noSubmit="true"></LForm>
+      <div class="new-category">
+        <LForm :title="'文章分类'" ref="postCategory" :formData="categoryInfo" :noSubmit="true"></LForm>
         <div class="update">
           <el-button :plain="true" type="info" size="small" @click="updateCategory">更新分类</el-button>
         </div>
+      </div>
+      <div class="new-thumb">
+        <LForm :title="'文章标签'" :formData="thumbInfo" :noSubmit="true"></LForm>
       </div>
     </div>
   </div>
@@ -34,7 +37,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['tags', 'categories']),
+    ...mapGetters(['upToken', 'tags', 'categories']),
     articleInfo () {
       return {
         title: {
@@ -59,14 +62,14 @@ export default {
           rule: { type: 'string', message: '请正确输入文章描述', trigger: 'blur' }
         },
         tag: {
-          val: ['599d69fb05eb401ce131ecf0'],
+          val: [],
           label: '文章标签',
           type: 'tag',
           default: this.tags,
           update: this.getTags.bind(this, '')
         },
         content: {
-          val: '我是little',
+          val: '',
           label: '文章内容',
           type: 'markdown',
           configs: {
@@ -88,10 +91,21 @@ export default {
           options: this.categories
         }
       }
+    },
+    thumbInfo () {
+      return {
+        thumb: {
+          val: '',
+          label: '缩略图',
+          type: 'avatar',
+          upToken: this.upToken,
+          placeholder: '请选择文章缩略图'
+        }
+      }
     }
   },
   methods: {
-    ...mapActions(['getTags', 'getCategories']),
+    ...mapActions(['setUpToken', 'getTags', 'getCategories']),
     confirmArticle (data) {
       console.log(data.title)
     },
@@ -101,9 +115,11 @@ export default {
     },
     updateCategory () {
       this.getCategories()
+      console.log(this.$refs.postBasic.form)
     }
   },
   mounted () {
+    this.setUpToken()
     this.getTags()
     this.getCategories()
   }
@@ -119,7 +135,8 @@ export default {
     .new-side
       flex: 0 0 360px
       padding: 10px
-      .new-tag
+      .new-category
+        margin-bottom: 20px
         .update
           background: #eef1f6
           margin-top: -20px

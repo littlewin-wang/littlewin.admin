@@ -57,7 +57,14 @@ export default {
   methods: {
     handleUpload (data) {
       let baseUrl = 'http://7xpot0.com1.z0.glb.clouddn.com/'
-      this.$set(this.form, 'gravatar', baseUrl + data.key)
+
+      if ('gravatar' in this.form) {
+        this.$set(this.form, 'gravatar', baseUrl + data.key)
+      }
+
+      if ('thumb' in this.form) {
+        this.$set(this.form, 'thumb', baseUrl + data.key)
+      }
     },
     handleSelect (data) {
       this.$set(this.form, 'tag', data)
