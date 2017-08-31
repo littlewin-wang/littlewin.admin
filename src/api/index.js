@@ -20,11 +20,14 @@ export default {
   CreateArticleAPI (params) {
     return axios.post(API_ROOT.concat('article'), params)
   },
+  GetArticleListAPI ({ state = 1, pub = 1, keyword = '', category = '', tag = '', date = '', hot = false }) {
+    return axios.get(API_ROOT.concat('article'))
+  },
   // tag api
   CreateTagAPI (params) {
     return axios.post(API_ROOT.concat('tag'), params)
   },
-  GetTagList (keyword = '') {
+  GetTagListAPI (keyword = '') {
     return axios.get(API_ROOT.concat(`tag?keyword=${keyword}`))
   },
   DeleteTagListAPI (params) {
@@ -40,7 +43,7 @@ export default {
   CreateCateAPI (params) {
     return axios.post(API_ROOT.concat('category'), params)
   },
-  GetCateList (keyword = '') {
+  GetCateListAPI (keyword = '') {
     return axios.get(API_ROOT.concat(`category?keyword=${keyword}`))
   },
   DeleteCateListAPI (params) {

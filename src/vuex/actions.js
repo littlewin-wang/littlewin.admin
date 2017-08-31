@@ -12,7 +12,6 @@ export const setRouteMap = ({ commit }, routeMap) => {
 export const setUpToken = ({ commit }) => {
   API.GetQiniuAPI().then(res => {
     if (res.data.success) {
-      console.log(res.data)
       commit('SET_UP_TOKEN', res.data.data.upToken)
     }
   })
@@ -35,7 +34,7 @@ export const getUser = ({ commit }) => {
 }
 
 export const getTags = ({ commit }, str) => {
-  API.GetTagList(str).then(res => {
+  API.GetTagListAPI(str).then(res => {
     if (res.data.success) {
       commit('SET_TAGS', res.data.data.tags)
     }
@@ -43,7 +42,7 @@ export const getTags = ({ commit }, str) => {
 }
 
 export const getCategories = ({ commit }, str) => {
-  API.GetCateList(str).then(res => {
+  API.GetCateListAPI(str).then(res => {
     if (res.data.success) {
       commit('SET_CATEGORIES', res.data.data.categories)
     }

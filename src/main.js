@@ -16,11 +16,11 @@ Vue.use(ElementUI)
 
 sync(store, router)
 
-import API from './api/index'
+// import API from './api/index'
 
-API.UserInfoAPI().then(res => {
-  console.log(res)
-})
+// API.UserInfoAPI().then(res => {
+//   console.log(res)
+// })
 
 /* eslint-disable no-new */
 new Vue({
