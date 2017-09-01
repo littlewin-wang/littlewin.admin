@@ -5,6 +5,12 @@
     </div>
     <div class="table-panel">
       <div class="panel-left">
+        <el-radio-group v-model="state" size="small">
+          <el-radio-button label="全部"></el-radio-button>
+          <el-radio-button label="已发布"></el-radio-button>
+          <el-radio-button label="草稿"></el-radio-button>
+          <el-radio-button label="回收站"></el-radio-button>
+        </el-radio-group>
         <el-button-group>
           <el-button icon="more" size="small" @click="handleRefresh">刷新列表</el-button>
           <el-button icon="delete" size="small" @click="handleReset">清空搜索词</el-button>
@@ -92,6 +98,7 @@ export default {
   data () {
     return {
       searchInput: '',
+      state: '全部',
       rawData: {},
       multipleSelection: []
     }

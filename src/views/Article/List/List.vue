@@ -1,7 +1,7 @@
 <template>
   <div class="list-container">
     <div class="post-list">
-      <PostTable :title="'全部文章'" :columns="articleColumns" :tableData="articles">
+      <PostTable :title="'全部文章'" :columns="articleColumns" :tableData="articles" @search="handleSearch">
       </PostTable>
     </div>
   </div>
@@ -51,7 +51,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getArticles'])
+    ...mapActions(['getArticles']),
+    handleSearch (str) {
+      this.getArticles({ keyword: str })
+    }
   },
   mounted () {
     this.getArticles({})
