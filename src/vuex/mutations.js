@@ -25,3 +25,7 @@ export const SET_TAGS = (state, tags) => {
 export const SET_CATEGORIES = (state, categories) => {
   state.categories = categories
 }
+
+export const SET_ARTICLES = (state, articles) => {
+  state.articles = articles
+}

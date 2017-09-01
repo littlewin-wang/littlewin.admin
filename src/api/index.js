@@ -20,7 +20,7 @@ export default {
   CreateArticleAPI (params) {
     return axios.post(API_ROOT.concat('article'), params)
   },
-  GetArticleListAPI ({ state = 1, pub = 1, keyword = '', category = '', tag = '', date = '', hot = false }) {
+  GetArticleListAPI ({ state = '', pub = '', keyword = '', category = '', tag = '', date = '', hot = '' }) {
     return axios.get(API_ROOT.concat(`article?state=${state}&pub=${pub}&keyword=${keyword}&category=${category}&tag=${tag}&date=${date}&hot=${hot}`))
   },
   // tag api

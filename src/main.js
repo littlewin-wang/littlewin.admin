@@ -18,7 +18,7 @@ sync(store, router)
 
 import API from './api/index'
 
-API.GetArticleListAPI({ keyword: '阿土', state: 0, pub: 0 }).then(res => {
+API.GetArticleListAPI({ state: 1 }).then(res => {
   console.log(res)
 })
 

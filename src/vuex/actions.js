@@ -48,3 +48,11 @@ export const getCategories = ({ commit }, str) => {
     }
   })
 }
+
+export const getArticles = ({ commit }, query) => {
+  API.GetArticleListAPI(query).then(res => {
+    if (res.data.success) {
+      commit('SET_ARTICLES', res.data.data.articles)
+    }
+  })
+}

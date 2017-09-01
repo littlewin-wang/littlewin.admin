@@ -40,15 +40,39 @@
         </el-table-column>
 
         <el-table-column v-for="(value, key) in columns" v-bind:key="key" :prop="key" :label="value.label" :width="value.width" :sortable="value.sortable" :minWidth="value['min-width']">
+          <template scope="scope">
+            <div v-if="key==='post'">
+              <h3>{{scope.row.title}}</h3>
+              <p>{{scope.row.description}}</p>
+            </div>
+            <div v-else-if="key==='category'">{{scope.row.category.name}}</div>
+            <div v-else-if="key==='tag'">{{scope.row.tag[0].name}}</div>
+            <div v-else-if="key==='updateAt'">
+              {{new Date(scope.row.updateAt).toLocaleString()}}
+            </div>
+            <div v-else-if="key==='pub'">
+              {{scope.row.pub===-1?'私密':scope.row.pub===0?'加密':'公开'}}
+            </div>
+            <div v-else-if="key==='state'">
+              {{scope.row.state===-1?'回收站':scope.row.state===0?'草稿':'发布'}}
+            </div>
+            <div v-else>{{scope.row[key]}}</div>
+          </template>
         </el-table-column>
 
-        <el-table-column label="操作" width="150">
+        <el-table-column label="操作" width="120">
           <template scope="scope">
-            <el-button size="small" type="success" @click="handleEdit(scope.$index, scope.row)">
-              编辑
+            <el-button style="margin: 2px 0 2px 0" size="small" type="success" @click="handleEdit(scope.$index, scope.row)">
+              编辑文章
             </el-button>
-            <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">
-              删除
+            <el-button style="margin: 2px 0 2px 0" size="small" type="warning" @click="handleDelete(scope.$index, scope.row)">
+              移到草稿
+            </el-button>
+            <el-button style="margin: 2px 0 2px 0" size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">
+              移回收站
+            </el-button>
+            <el-button style="margin: 2px 0 2px 0" size="small" type="info" @click="handleDelete(scope.$index, scope.row)">
+              查看文章
             </el-button>
           </template>
         </el-table-column>

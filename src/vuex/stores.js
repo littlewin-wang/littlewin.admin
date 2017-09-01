@@ -20,7 +20,8 @@ export default new Vuex.Store({
     site: {},
     user: {},
     tags: [],
-    categories: []
+    categories: [],
+    articles: []
   },
   getters,
   mutations,
