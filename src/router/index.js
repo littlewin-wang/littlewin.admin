@@ -9,6 +9,7 @@ import Article from '@/views/Article/Article.vue'
 import Tag from '@/views/Article/Tag/Tag.vue'
 import Category from '@/views/Article/Category/Category.vue'
 import Post from '@/views/Article/Post/Post.vue'
+import List from '@/views/Article/List/List.vue'
 
 Vue.use(Router)
 
@@ -62,6 +63,15 @@ export const routerMap = [
             component: Category,
             meta: {
               fullPath: '/article/category',
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'list',
+            name: '全部文章',
+            component: List,
+            meta: {
+              fullPath: '/article/list',
               requiresAuth: true
             }
           }
