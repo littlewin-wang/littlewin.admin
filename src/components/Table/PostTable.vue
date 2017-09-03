@@ -5,7 +5,7 @@
     </div>
     <div class="table-panel">
       <div class="panel-left">
-        <el-radio-group v-model="state" size="small">
+        <el-radio-group v-model="state" size="small" @change="handleSearch">
           <el-radio-button label="全部"></el-radio-button>
           <el-radio-button label="已发布"></el-radio-button>
           <el-radio-button label="草稿"></el-radio-button>
@@ -103,19 +103,27 @@ export default {
       multipleSelection: []
     }
   },
+  computed: {
+    searchQuery () {
+      return {
+        keyword: this.searchInput,
+        state: this.state === '全部' ? '' : this.state === '已发布' ? 1 : this.state === '草稿' ? 0 : -1
+      }
+    }
+  },
   methods: {
     handleRefresh () {
-      this.$emit('search', this.searchInput)
+      this.$emit('search', this.searchQuery)
     },
     handleReset () {
       this.searchInput = ''
-      this.$emit('search', this.searchInput)
+      this.$emit('search', this.searchQuery)
     },
     handleDeleteList () {
       this.$emit('deleteList', this.multipleSelection)
     },
     handleSearch () {
-      this.$emit('search', this.searchInput)
+      this.$emit('search', this.searchQuery)
     },
     handleSelectionChange (val) {
       this.multipleSelection = val

@@ -52,8 +52,8 @@ export default {
   },
   methods: {
     ...mapActions(['getArticles']),
-    handleSearch (str) {
-      this.getArticles({ keyword: str })
+    handleSearch (query) {
+      this.getArticles(query)
     }
   },
   mounted () {
