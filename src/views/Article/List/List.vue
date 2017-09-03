@@ -1,7 +1,7 @@
 <template>
   <div class="list-container">
     <div class="post-list">
-      <PostTable :title="'全部文章'" :columns="articleColumns" :tableData="articles" @search="handleSearch" @edit="handleEdit">
+      <PostTable :title="'全部文章'" :columns="articleColumns" :tableData="articles" @search="handleSearch" @edit="handleEdit" @draft="handleState">
       </PostTable>
     </div>
   </div>
@@ -10,6 +10,7 @@
 <script type="text/ecmascript-6">
 import PostTable from '@/components/Table/PostTable.vue'
 import { mapGetters, mapActions } from 'vuex'
+import API from '@/api/index'
 export default {
   components: {
     PostTable
@@ -62,6 +63,12 @@ export default {
     },
     handleEdit (id) {
       this.$router.push(`/article/post/${id}`)
+    },
+    handleState (data, query) {
+      console.log(data)
+      API.ModifyArticleStateAPI(data).then(res => {
+        this.getArticles(query)
+      })
     }
   },
   mounted () {

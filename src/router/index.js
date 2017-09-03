@@ -41,7 +41,7 @@ export const routerMap = [
         children: [
           {
             path: 'post/:id',
-            name: '文章管理',
+            name: '撰写文章',
             component: Post,
             meta: {
               fullPath: '/article/post/new',
