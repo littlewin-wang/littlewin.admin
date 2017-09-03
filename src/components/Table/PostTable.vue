@@ -48,7 +48,11 @@
         <el-table-column v-for="(value, key) in columns" v-bind:key="key" :prop="key" :label="value.label" :width="value.width" :sortable="value.sortable" :minWidth="value['min-width']">
           <template scope="scope">
             <div v-if="key==='post'">
-              <h3>{{scope.row.title}}</h3>
+              <h3>{{scope.row.title}}
+                <i v-if="scope.row.state===1" class="el-icon-check" style="color:#13CE66"></i>
+                <i v-if="scope.row.state===0" class="el-icon-edit" style="color:#F7BA2A"></i>
+                <i v-if="scope.row.state===-1" class="el-icon-delete" style="color:#FF4949"></i>
+              </h3>
               <p>{{scope.row.description}}</p>
             </div>
             <div v-else-if="key==='category'">{{scope.row.category.name}}</div>
