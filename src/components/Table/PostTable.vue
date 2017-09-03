@@ -37,9 +37,18 @@
 
         <el-table-column type="expand">
           <template scope="props">
-            <el-form label-position="left" inline class="table-expand">
-              <el-form-item :label="key" v-for="(value, key) in props.row" v-bind:key="key">
-                <span>{{value}}</span>
+            <el-form label-position="left" label-width="70px">
+              <el-form-item label="标题: ">
+                <span style="color:#99A9BF">{{props.row.title}}</span>
+              </el-form-item>
+              <el-form-item label="关键词 : ">
+                <span style="color:#99A9BF">{{props.row.keywords}}</span>
+              </el-form-item>
+              <el-form-item label="描述: ">
+                <div style="color:#99A9BF;white-space:pre" v-html="props.row.description"></div>
+              </el-form-item>
+              <el-form-item>
+                <el-button type="primary" size="small" @click="handlePreview(props.row._id)">查看文章</el-button>
               </el-form-item>
             </el-form>
           </template>
@@ -76,7 +85,7 @@
 
         <el-table-column label="操作" width="120">
           <template scope="scope">
-            <el-button style="margin: 2px 0 2px 0" size="small" type="success" @click="handleEdit(scope.$index, scope.row)">
+            <el-button style="margin: 2px 0 2px 0" size="small" type="primary" @click="handleEdit(scope.$index, scope.row)">
               编辑文章
             </el-button>
             <el-button style="margin: 2px 0 2px 0" size="small" type="warning" @click="handleDraft(scope.$index, scope.row)">
@@ -85,18 +94,31 @@
             <el-button style="margin: 2px 0 2px 0" size="small" type="danger" @click="handleTrash(scope.$index, scope.row)">
               移回收站
             </el-button>
-            <el-button style="margin: 2px 0 2px 0" size="small" type="info" @click="handleDelete(scope.$index, scope.row)">
-              查看文章
+            <el-button style="margin: 2px 0 2px 0" size="small" type="success" @click="handlePublish(scope.$index, scope.row)">
+              移到发布
             </el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
+    <el-dialog :title="article.title" :visible.sync="isPreview" size="full" :before-close="resetPreview">
+      <markdown-editor ref="markdownEditor" :configs="{toolbar: false}" v-model="article.content" preview-class="markdown-body"></markdown-editor>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="resetPreview()">关闭</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+import { markdownEditor } from 'vue-simplemde'
+require.ensure([], () => require('github-markdown-css'), 'markdown-style')
+import 'github-markdown-css'
+import API from '@/api/index'
 export default {
+  components: {
+    markdownEditor
+  },
   props: {
     title: String,
     columns: Object,
@@ -108,7 +130,12 @@ export default {
       searchInput: '',
       state: '全部',
       rawData: {},
-      multipleSelection: []
+      multipleSelection: [],
+      article: {
+        title: '',
+        content: ''
+      },
+      isPreview: false
     }
   },
   computed: {
@@ -136,6 +163,32 @@ export default {
     handleSelectionChange (val) {
       this.multipleSelection = val
     },
+    handlePreview (id) {
+      API.GetArticleAPI(id).then(res => {
+        if (res.data.success) {
+          this.article.title = res.data.data.title
+          this.article.content = res.data.data.content
+          this.isPreview = true
+          setTimeout(() => {
+            if (!this.$refs.markdownEditor.simplemde.isPreviewActive()) {
+              this.$refs.markdownEditor.simplemde.togglePreview()
+            }
+          }, 0)
+        } else {
+          this.$message.error('获取文章失败')
+        }
+      }).catch(err => {
+        this.$message.error(err.response.data.message)
+      })
+    },
+    resetPreview () {
+      this.isPreview = false
+      this.article.title = ''
+      this.article.content = ''
+      if (this.$refs.markdownEditor.simplemde.isPreviewActive()) {
+        this.$refs.markdownEditor.simplemde.togglePreview()
+      }
+    },
     handleEdit (index, row) {
       this.$emit('edit', row._id)
     },
@@ -144,6 +197,9 @@ export default {
     },
     handleDraft (index, row) {
       this.$emit('state', { articles: [{ _id: row._id }], action: 2 }, this.searchQuery)
+    },
+    handlePublish (index, row) {
+      this.$emit('state', { articles: [{ _id: row._id }], action: 3 }, this.searchQuery)
     },
     handleDelete (index, row) {
       this.$emit('delete', row)
@@ -172,4 +228,11 @@ export default {
         vertical-align: top
     .table-content
       padding: 20px 20px 10px 20px
+    .table-markdown
+      position: fixed
+      left: 0
+      top: 0
+      right: 0
+      bottom: 0
+      z-index: 9
 </style>
