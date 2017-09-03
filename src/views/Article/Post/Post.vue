@@ -42,10 +42,8 @@ export default {
   },
   data () {
     return {
-      type: '',
-      form: {
-
-      },
+      type: 'add',
+      form: {},
       configs: {
         spellChecker: false // 禁用拼写检查
       }
@@ -56,7 +54,7 @@ export default {
     articleInfo () {
       return {
         title: {
-          val: '',
+          val: this.form.title || '',
           label: '文章标题',
           type: 'input',
           rule: [
@@ -65,26 +63,26 @@ export default {
           ]
         },
         keywords: {
-          val: '',
+          val: this.form.keywords ? this.form.keywords.join(',') : '',
           label: '文章关键词',
           type: 'input',
           rule: { pattern: /^(([\u4e00-\u9fa5a-zA-Z])+,)+([\u4e00-\u9fa5a-zA-Z])+$/, message: '请正确输入关键词', trigger: 'blur' }
         },
         description: {
-          val: '',
+          val: this.form.description || '',
           label: '文章描述',
           type: 'textarea',
           rule: { type: 'string', message: '请正确输入文章描述', trigger: 'blur' }
         },
         tag: {
-          val: [],
+          val: this.form.tag || [],
           label: '文章标签',
           type: 'tag',
           default: this.tags,
           update: this.getTags.bind(this, '')
         },
         content: {
-          val: '',
+          val: this.form.content || '',
           label: '文章内容',
           type: 'markdown',
           configs: {
@@ -99,7 +97,7 @@ export default {
     categoryInfo () {
       return {
         category: {
-          val: '',
+          val: this.form.category || '',
           label: '分类',
           type: 'select',
           placeholder: '请选择文章分类',
@@ -110,7 +108,7 @@ export default {
     thumbInfo () {
       return {
         thumb: {
-          val: '',
+          val: this.form.thumb || '',
           label: '缩略图',
           type: 'avatar',
           upToken: this.upToken,
@@ -121,7 +119,7 @@ export default {
     publishInfo () {
       return {
         state: {
-          val: '',
+          val: [0, -1, 1].includes(this.form.state) ? this.form.state : '',
           label: '状态',
           type: 'select',
           options: [
@@ -140,7 +138,7 @@ export default {
           ]
         },
         pub: {
-          val: '',
+          val: [0, -1, 1].includes(this.form.pub) ? this.form.pub : '',
           label: '公开状态',
           type: 'select',
           options: [
@@ -159,7 +157,7 @@ export default {
           ]
         },
         password: {
-          val: '',
+          val: this.form.password || '',
           label: '密码',
           type: 'password',
           rule: { pattern: /^[\S]{6,10}$/, message: '密码由6-10位数字，字母或_组成', trigger: 'blur' }
@@ -169,12 +167,25 @@ export default {
   },
   methods: {
     ...mapActions(['setUpToken', 'getTags', 'getCategories']),
+    formatForm (id) {
+      if (id === 'new') {
+        this.type = 'add'
+        this.form = {}
+      } else {
+        API.GetArticleAPI(id).then(res => {
+          if (res.data.success) {
+            this.form = res.data.data
+            this.type = 'edit'
+          } else {
+            this.$message.error('获取文章失败')
+          }
+        }).catch(err => {
+          this.$message.error(err.response.data.message)
+        })
+      }
+    },
     confirmArticle (data) {
       console.log(data.title)
-    },
-    tagClick () {
-      console.log(1)
-      this.type = this.type === 'success' ? '' : 'success'
     },
     updateCategory () {
       this.getCategories()
@@ -195,27 +206,71 @@ export default {
         }
       })
 
-      let obj = Object.assign({}, this.$refs.postBasic.form, this.$refs.postCategory.form, this.$refs.postThumb.form, this.$refs.postPublish.form)
+      let articleObj = Object.assign({}, this.$refs.postBasic.form, this.$refs.postCategory.form, this.$refs.postThumb.form, this.$refs.postPublish.form)
 
-      console.log(obj)
+      // format keywords
+      articleObj.keywords = articleObj.keywords.split(',')
+
+      console.log(articleObj)
       this.$confirm('确认文章内容')
         .then(_ => {
-          API.CreateArticleAPI(obj).then((res) => {
-            this.$message({
-              message: '文章添加成功',
-              type: 'success'
+          if (this.type === 'add') {
+            API.CreateArticleAPI(articleObj).then((res) => {
+              this.$message({
+                message: '文章添加成功',
+                type: 'success'
+              })
+            }).catch(err => {
+              this.$message.error(err.response.data.message)
             })
-          }).catch(err => {
-            this.$message.error(err.response.data.message)
-          })
+          } else {
+            if (!this.form._id) {
+              this.$message.error('无有效文章ID')
+              return
+            }
+
+            API.ModifyArticleAPI(this.form._id, articleObj).then((res) => {
+              this.$message({
+                message: '文章更新成功',
+                type: 'success'
+              })
+            }).catch(err => {
+              this.$message.error(err.response.data.message)
+            })
+          }
         })
         .catch(_ => { })
     }
+  },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      if (vm.$route.params && vm.$route.params.id) {
+        if (vm.$route.params.id === 'new') {
+          vm.type = 'add'
+        } else {
+          API.GetArticleAPI(vm.$route.params.id).then(res => {
+            if (res.data.success) {
+              vm.form = res.data.data
+              vm.type = 'edit'
+            } else {
+              vm.$message.error('获取文章失败')
+            }
+          }).catch(err => {
+            vm.$message.error(err.response.data.message)
+          })
+        }
+      }
+    })
+  },
+  beforeRouteUpdate (to, from, next) {
+    this.formatForm(to.params.id)
+    next()
   },
   mounted () {
     this.setUpToken()
     this.getTags()
     this.getCategories()
+    this.formatForm(this.$route.params.id)
   }
 }
 </script>

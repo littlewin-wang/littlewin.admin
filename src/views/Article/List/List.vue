@@ -1,7 +1,7 @@
 <template>
   <div class="list-container">
     <div class="post-list">
-      <PostTable :title="'全部文章'" :columns="articleColumns" :tableData="articles" @search="handleSearch">
+      <PostTable :title="'全部文章'" :columns="articleColumns" :tableData="articles" @search="handleSearch" @edit="handleEdit">
       </PostTable>
     </div>
   </div>
@@ -59,6 +59,9 @@ export default {
     ...mapActions(['getArticles']),
     handleSearch (query) {
       this.getArticles(query)
+    },
+    handleEdit (id) {
+      this.$router.push(`/article/post/${id}`)
     }
   },
   mounted () {

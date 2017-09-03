@@ -57,7 +57,10 @@
             </div>
             <el-tag v-else-if="key==='category'">{{scope.row.category.name}}</el-tag>
             <el-tag type="primary" style="margin:2px 0" v-else-if="key==='tag'" v-for="(tag,index) in scope.row.tag" v-bind:key="index">{{tag.name}}</el-tag>
-            <div v-else-if="key==='comments'">{{scope.row.meta.comments}}</div>
+            <div v-else-if="key==='comments'">
+              <span v-if="scope.row.meta.comments===0" style="color:#99A9BF">暂无</span>
+              <span v-else>{{scope.row.meta.comments}}</span>
+            </div>
             <div v-else-if="key==='createAt'">
               {{new Date(scope.row.createAt).toLocaleString()}}
             </div>
@@ -134,7 +137,7 @@ export default {
       this.multipleSelection = val
     },
     handleEdit (index, row) {
-      this.$emit('edit', row)
+      this.$emit('edit', row._id)
     },
     handleDelete (index, row) {
       this.$emit('delete', row)

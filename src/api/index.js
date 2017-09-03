@@ -20,6 +20,12 @@ export default {
   CreateArticleAPI (params) {
     return axios.post(API_ROOT.concat('article'), params)
   },
+  GetArticleAPI (id) {
+    return axios.get(API_ROOT.concat('article/').concat(id))
+  },
+  ModifyArticleAPI (id, params) {
+    return axios.put(API_ROOT.concat('article/').concat(id), params)
+  },
   GetArticleListAPI ({ state = '', pub = '', keyword = '', category = '', tag = '', date = '', hot = '' }) {
     return axios.get(API_ROOT.concat(`article?state=${state}&pub=${pub}&keyword=${keyword}&category=${category}&tag=${tag}&date=${date}&hot=${hot}`))
   },
