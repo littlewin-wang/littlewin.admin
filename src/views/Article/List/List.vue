@@ -1,7 +1,7 @@
 <template>
   <div class="list-container">
     <div class="post-list">
-      <PostTable :title="'全部文章'" :columns="articleColumns" :tableData="articles" @search="handleSearch" @edit="handleEdit" @draft="handleState">
+      <PostTable :title="'全部文章'" :columns="articleColumns" :tableData="articles" @search="handleSearch" @edit="handleEdit" @state="handleState">
       </PostTable>
     </div>
   </div>
@@ -51,7 +51,7 @@ export default {
         },
         state: {
           label: '状态',
-          width: '80'
+          width: '100'
         }
       }
     }
@@ -65,9 +65,11 @@ export default {
       this.$router.push(`/article/post/${id}`)
     },
     handleState (data, query) {
-      console.log(data)
       API.ModifyArticleStateAPI(data).then(res => {
         this.getArticles(query)
+        this.$message.success('更新状态成功')
+      }).catch(err => {
+        this.$message.error(err.response.data.message)
       })
     }
   },

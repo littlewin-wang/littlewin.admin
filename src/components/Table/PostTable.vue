@@ -82,7 +82,7 @@
             <el-button style="margin: 2px 0 2px 0" size="small" type="warning" @click="handleDraft(scope.$index, scope.row)">
               移到草稿
             </el-button>
-            <el-button style="margin: 2px 0 2px 0" size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">
+            <el-button style="margin: 2px 0 2px 0" size="small" type="danger" @click="handleTrash(scope.$index, scope.row)">
               移回收站
             </el-button>
             <el-button style="margin: 2px 0 2px 0" size="small" type="info" @click="handleDelete(scope.$index, scope.row)">
@@ -139,8 +139,11 @@ export default {
     handleEdit (index, row) {
       this.$emit('edit', row._id)
     },
+    handleTrash (index, row) {
+      this.$emit('state', { articles: [{ _id: row._id }], action: 1 }, this.searchQuery)
+    },
     handleDraft (index, row) {
-      this.$emit('draft', { articles: [{ _id: row._id }], action: 2 }, this.searchQuery)
+      this.$emit('state', { articles: [{ _id: row._id }], action: 2 }, this.searchQuery)
     },
     handleDelete (index, row) {
       this.$emit('delete', row)
