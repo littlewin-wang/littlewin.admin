@@ -55,17 +55,18 @@
               </h3>
               <p>{{scope.row.description}}</p>
             </div>
-            <div v-else-if="key==='category'">{{scope.row.category.name}}</div>
-            <div v-else-if="key==='tag'">{{scope.row.tag[0].name}}</div>
-            <div v-else-if="key==='updateAt'">
-              {{new Date(scope.row.updateAt).toLocaleString()}}
+            <el-tag v-else-if="key==='category'">{{scope.row.category.name}}</el-tag>
+            <el-tag type="primary" style="margin:2px 0" v-else-if="key==='tag'" v-for="(tag,index) in scope.row.tag" v-bind:key="index">{{tag.name}}</el-tag>
+            <div v-else-if="key==='comments'">{{scope.row.meta.comments}}</div>
+            <div v-else-if="key==='createAt'">
+              {{new Date(scope.row.createAt).toLocaleString()}}
             </div>
-            <div v-else-if="key==='pub'">
+            <el-tag v-else-if="key==='pub'" :type="scope.row.pub===-1?'danger':scope.row.pub===0?'warning':'success'">
               {{scope.row.pub===-1?'私密':scope.row.pub===0?'加密':'公开'}}
-            </div>
-            <div v-else-if="key==='state'">
+            </el-tag>
+            <el-tag v-else-if="key==='state'" :type="scope.row.state===-1?'danger':scope.row.state===0?'warning':'success'">
               {{scope.row.state===-1?'回收站':scope.row.state===0?'草稿':'发布'}}
-            </div>
+            </el-tag>
             <div v-else>{{scope.row[key]}}</div>
           </template>
         </el-table-column>

@@ -34,8 +34,13 @@ export default {
           label: '标签',
           width: '80'
         },
-        updateAt: {
-          label: '更新时间',
+        comments: {
+          label: '评论',
+          width: '100',
+          sortable: true
+        },
+        createAt: {
+          label: '创建时间',
           width: '180',
           sortable: true
         },
