@@ -70,7 +70,7 @@ export default {
       this.$set(this.form, 'tag', data)
     },
     handleInput (data) {
-      localStorage.setItem('content', data)
+      localStorage.setItem('new_content', data)
     },
     formatForm () {
       for (let key in this.formData) {

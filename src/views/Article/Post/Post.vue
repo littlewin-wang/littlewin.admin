@@ -1,7 +1,7 @@
 <template>
   <div class="new-container">
     <div class="new-content">
-      <LForm :title="'写文章'" ref="postBasic" :formData="articleInfo" @confirm="confirmArticle"></LForm>
+      <LForm :title="'写文章'" ref="postBasic" :formData="articleInfo" @confirm="confirmArticle" :noSubmit="true"></LForm>
     </div>
     <div class="new-side">
       <div class="new-category">
@@ -82,7 +82,7 @@ export default {
           update: this.getTags.bind(this, '')
         },
         content: {
-          val: this.form.content || '',
+          val: this.form.content || localStorage.getItem('new_content') || '',
           label: '文章内容',
           type: 'markdown',
           configs: {
@@ -220,6 +220,8 @@ export default {
                 message: '文章添加成功',
                 type: 'success'
               })
+              this.form = {}
+              localStorage.setItem('new_content', '')
             }).catch(err => {
               this.$message.error(err.response.data.message)
             })
@@ -234,6 +236,8 @@ export default {
                 message: '文章更新成功',
                 type: 'success'
               })
+              this.form = {}
+              localStorage.setItem('new_content', '')
             }).catch(err => {
               this.$message.error(err.response.data.message)
             })
