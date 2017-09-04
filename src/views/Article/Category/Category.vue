@@ -203,7 +203,6 @@ export default {
     }
   },
   mounted () {
-    this.getCategories()
   }
 }
 </script>

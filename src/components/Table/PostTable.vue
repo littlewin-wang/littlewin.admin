@@ -26,8 +26,22 @@
         </el-button-group>
       </div>
       <div class="panel-right">
-        <el-input placeholder="搜索相关" autosize icon="search" v-model="searchInput" @change="handleSearch" :on-icon-click="handleSearch">
-        </el-input>
+        <div class="panel-tag">
+          <el-select v-model="tag" placeholder="请选择标签" clearable @change="handleSearch">
+            <el-option v-for="item in tags" :key="item._id" :label="item.name" :value="item._id">
+            </el-option>
+          </el-select>
+        </div>
+        <div class="panel-category">
+          <el-select v-model="category" placeholder="请选择分类" clearable @change="handleSearch">
+            <el-option v-for="item in categories" :key="item._id" :label="item.name" :value="item._id">
+            </el-option>
+          </el-select>
+        </div>
+        <div class="panel-search">
+          <el-input placeholder="搜索相关" autosize icon="search" v-model="searchInput" @change="handleSearch" :on-icon-click="handleSearch">
+          </el-input>
+        </div>
       </div>
     </div>
     <div class="table-content">
@@ -123,10 +137,14 @@ export default {
     title: String,
     columns: Object,
     tableData: Array,
+    tags: Array,
+    categories: Array,
     disableBatch: Boolean
   },
   data () {
     return {
+      tag: '',
+      category: '',
       searchInput: '',
       state: '全部',
       rawData: {},
@@ -141,6 +159,8 @@ export default {
   computed: {
     searchQuery () {
       return {
+        tag: this.tag,
+        category: this.category,
         keyword: this.searchInput,
         state: this.state === '全部' ? '' : this.state === '已发布' ? 1 : this.state === '草稿' ? 0 : -1
       }
@@ -226,6 +246,15 @@ export default {
         display: inline-block
         float: right
         vertical-align: top
+        .panel-tag
+          display: inline-block
+          vertical-align: top
+        .panel-category
+          display: inline-block
+          vertical-align: top
+        .panel-search
+          display: inline-block
+          vertical-align: top
     .table-content
       padding: 20px 20px 10px 20px
     .table-markdown

@@ -56,7 +56,7 @@ export default {
     ...mapGetters(['user'])
   },
   methods: {
-    ...mapActions(['setRouteMap', 'getUser']),
+    ...mapActions(['setRouteMap', 'getUser', 'getTags', 'getCategories', 'getArticles']),
     handleCollapse (isCollapse) {
       this.isCollapse = isCollapse
     }
@@ -64,6 +64,9 @@ export default {
   mounted () {
     this.setRouteMap(routerMap)
     this.getUser()
+    this.getTags()
+    this.getCategories()
+    this.getArticles({})
   }
 }
 </script>

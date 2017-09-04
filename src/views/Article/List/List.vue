@@ -1,7 +1,7 @@
 <template>
   <div class="list-container">
     <div class="post-list">
-      <PostTable :title="'全部文章'" :columns="articleColumns" :tableData="articles" @search="handleSearch" @edit="handleEdit" @state="handleState">
+      <PostTable :title="'全部文章'" :columns="articleColumns" :tableData="articles" :tags="tags" :categories="categories" @search="handleSearch" @edit="handleEdit" @state="handleState">
       </PostTable>
     </div>
   </div>
@@ -16,7 +16,7 @@ export default {
     PostTable
   },
   computed: {
-    ...mapGetters(['articles']),
+    ...mapGetters(['articles', 'tags', 'categories']),
     articleColumns () {
       return {
         id: {
@@ -74,7 +74,6 @@ export default {
     }
   },
   mounted () {
-    this.getArticles({})
   }
 }
 </script>

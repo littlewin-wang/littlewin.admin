@@ -272,8 +272,6 @@ export default {
   },
   mounted () {
     this.setUpToken()
-    this.getTags()
-    this.getCategories()
     this.formatForm(this.$route.params.id)
   }
 }
