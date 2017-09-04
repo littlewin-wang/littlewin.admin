@@ -105,4 +105,13 @@ export default {
 
   .el-menu:not(.el-menu--collapse)
     width: 200px
+  .el-menu--collapse
+    .el-submenu
+      .el-submenu__title
+        span
+          height: 0
+          width: 0
+          overflow: hidden
+          visibility: hidden
+          display: inline-block
 </style>
