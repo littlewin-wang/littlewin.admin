@@ -117,11 +117,11 @@ export default {
         description: data.description
       }
       API.ModifyTagAPI(data._id, tagInfo).then(() => {
+        this.dialogVisible = false
         this.$message({
           message: '修改标签成功',
           type: 'success'
         })
-        this.dialogVisible = false
         this.getTags()
       }).catch(err => {
         this.$message.error(err.response.data.message)
@@ -150,7 +150,7 @@ export default {
         this.tagEdit[key]['val'] = data[key] ? data[key] : ''
       }
 
-      this.formTitle = '修改标签: ' + this.tagEdit.name.val
+      this.formTitle = '修改标签: ' + this.tagEdit.name.val + ' ' + new Date().toLocaleString()
       this.dialogVisible = true
     },
     handleDelete (data) {

@@ -93,8 +93,11 @@ export default {
     title () {
       this.formatForm()
     },
-    formData () {
-      this.formatForm()
+    formData: {
+      handler: function () {
+        this.formatForm()
+      },
+      deep: true
     }
   },
   mounted () {

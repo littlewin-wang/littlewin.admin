@@ -8,7 +8,7 @@
       </LTable>
     </div>
     <el-dialog :visible.sync="dialogVisible" size="tiny" :before-close="handleClose">
-      <LForm :title="formTitle" :formData="categoryEdit" :noSubmit="false"></LForm>
+      <LForm :title="formTitle" :formData="categoryEdit" @confirm="editCategory"></LForm>
     </el-dialog>
   </div>
 </template>
@@ -137,11 +137,11 @@ export default {
         description: data.description
       }
       API.ModifyCateAPI(data._id, categoryInfo).then(() => {
+        this.dialogVisible = false
         this.$message({
           message: '修改分类成功',
           type: 'success'
         })
-        this.dialogVisible = false
         this.getCategories()
       }).catch(err => {
         this.$message.error(err.response.data.message)
@@ -175,7 +175,7 @@ export default {
         }
       }
 
-      this.formTitle = '修改分类: ' + this.categoryEdit.name.val
+      this.formTitle = '修改分类: ' + this.categoryEdit.name.val + ' ' + new Date().toLocaleString()
       this.dialogVisible = true
     },
     handleDelete (data) {

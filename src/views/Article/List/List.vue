@@ -74,6 +74,7 @@ export default {
     }
   },
   mounted () {
+    this.getArticles({})
   }
 }
 </script>
