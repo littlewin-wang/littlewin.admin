@@ -184,6 +184,11 @@ export default {
         })
       }
     },
+    resetPost () {
+      this.type = 'add'
+      this.form = {}
+      localStorage.setItem('new_content', '')
+    },
     confirmArticle (data) {
       console.log(data.title)
     },
