@@ -81,7 +81,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$emit('confirm', this.form)
-          this.formatForm()
+          // this.formatForm()
         } else {
           this.$message.error('输入有错哦')
           return false
