@@ -32,6 +32,13 @@ export default {
   ModifyArticleStateAPI (params) {
     return axios.patch(API_ROOT.concat('article'), params)
   },
+  // comment api
+  GetCommentListAPI ({ state = '', keyword = '', postID = '' }) {
+    return axios.get(API_ROOT.concat(`comment?state=${state}&keyword=${keyword}&postID=${postID}`))
+  },
+  ModifyCommentStateAPI (params) {
+    return axios.patch(API_ROOT.concat('comment'), params)
+  },
   // tag api
   CreateTagAPI (params) {
     return axios.post(API_ROOT.concat('tag'), params)
@@ -63,10 +70,6 @@ export default {
   },
   DeleteCateAPI (id) {
     return axios.delete(API_ROOT.concat('category/').concat(id))
-  },
-  // comment api
-  GetCommentListAPI ({ state = '', keyword = '', postID = '' }) {
-    return axios.get(API_ROOT.concat(`comment?state=${state}&keyword=${keyword}&postID=${postID}`))
   },
   // site info
   SiteInfoAPI () {

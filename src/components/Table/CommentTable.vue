@@ -66,10 +66,10 @@
             </div>
             <div v-if="key==='terminal'">
               <div>浏览器:
-                <span style="color:#99a9bf">{{parseUA(scope.row.agent).browser.name}} | {{parseUA(scope.row.agent).browser.version.original.split('.')[0]}}</span>
+                <span style="color:#99a9bf">{{parseUA(scope.row.agent).browser.name}} - {{parseUA(scope.row.agent).browser.version.original.split('.')[0]}}</span>
               </div>
               <div>系统:
-                <span style="color:#99a9bf">{{parseUA(scope.row.agent).os.name}} | {{parseUA(scope.row.agent).os.version.original.split('.')[0]}}</span>
+                <span style="color:#99a9bf">{{parseUA(scope.row.agent).os.name}} - {{parseUA(scope.row.agent).os.version.original.split('.')[0]}}</span>
               </div>
             </div>
             <div v-else-if="key==='state'">
@@ -89,7 +89,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column label="操作" width="120">
+        <el-table-column label="操作" width="120" fixed="right">
           <template scope="scope">
             <el-button style="margin: 2px 0 2px 0" size="small" type="primary" @click="handleGo(scope.$index, scope.row)">
               评论页面
@@ -122,7 +122,7 @@ export default {
   data () {
     return {
       searchInput: '',
-      state: '全部',
+      state: '已发布',
       multipleSelection: [],
       type: '全部'
     }
@@ -130,7 +130,7 @@ export default {
   computed: {
     searchQuery () {
       return {
-        state: this.state === '全部' ? '' : this.state === '已发布' ? 1 : this.state === '回收站' ? -1 : this.state === '垃圾评论' ? -2 : 0,
+        state: this.state === '已发布' ? 1 : this.state === '回收站' ? -1 : this.state === '垃圾评论' ? -2 : 0,
         postID: this.type === '全部' ? '' : 0,
         keyword: this.searchInput
       }

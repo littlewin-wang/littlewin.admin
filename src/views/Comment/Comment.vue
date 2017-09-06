@@ -35,6 +35,10 @@ export default {
           label: '评论内容',
           'min-width': '200'
         },
+        state: {
+          label: '状态',
+          width: '100'
+        },
         person: {
           label: '个人信息',
           width: '220'
@@ -55,10 +59,6 @@ export default {
           label: '创建时间',
           width: '180',
           sortable: true
-        },
-        state: {
-          label: '状态',
-          width: '100'
         }
       }
     }
@@ -69,7 +69,12 @@ export default {
       this.getComments(query)
     },
     handleState (data, query) {
-      console.log(data, query, API)
+      API.ModifyCommentStateAPI(data).then(res => {
+        this.getComments(query)
+        this.$message.success('更新状态成功')
+      }).catch(err => {
+        this.$message.error(err.response.data.message)
+      })
     }
   },
   mounted () {
