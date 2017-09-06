@@ -10,6 +10,7 @@
           <el-radio-button label="留言板"></el-radio-button>
         </el-radio-group>
         <el-radio-group v-model="state" size="small" @change="handleSearch">
+          <el-radio-button label="全部"></el-radio-button>
           <el-radio-button label="已发布"></el-radio-button>
           <el-radio-button label="待审核"></el-radio-button>
           <el-radio-button label="回收站"></el-radio-button>
@@ -122,7 +123,7 @@ export default {
   data () {
     return {
       searchInput: '',
-      state: '已发布',
+      state: '全部',
       multipleSelection: [],
       type: '全部'
     }
@@ -130,7 +131,7 @@ export default {
   computed: {
     searchQuery () {
       return {
-        state: this.state === '已发布' ? 1 : this.state === '回收站' ? -1 : this.state === '垃圾评论' ? -2 : 0,
+        state: this.state === '全部' ? '' : this.state === '已发布' ? 1 : this.state === '回收站' ? -1 : this.state === '垃圾评论' ? -2 : 0,
         postID: this.type === '全部' ? '' : 0,
         keyword: this.searchInput
       }
