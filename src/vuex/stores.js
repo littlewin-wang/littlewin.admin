@@ -21,7 +21,8 @@ export default new Vuex.Store({
     user: {},
     tags: [],
     categories: [],
-    articles: []
+    articles: [],
+    comments: []
   },
   getters,
   mutations,

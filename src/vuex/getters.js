@@ -12,3 +12,4 @@ export const user = state => state.user
 export const tags = state => state.tags
 export const categories = state => state.categories
 export const articles = state => state.articles
+export const comments = state => state.comments

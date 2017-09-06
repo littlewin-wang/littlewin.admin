@@ -10,6 +10,7 @@ import Tag from '@/views/Article/Tag/Tag.vue'
 import Category from '@/views/Article/Category/Category.vue'
 import Post from '@/views/Article/Post/Post.vue'
 import List from '@/views/Article/List/List.vue'
+import Comment from '@/views/Comment/Comment.vue'
 
 Vue.use(Router)
 
@@ -34,7 +35,7 @@ export const routerMap = [
         name: '文章设置',
         component: Article,
         meta: {
-          icon: 'el-icon-star-on',
+          icon: 'el-icon-edit',
           fullPath: '/article',
           requiresAuth: true
         },
@@ -76,6 +77,16 @@ export const routerMap = [
             }
           }
         ]
+      },
+      {
+        path: 'comment',
+        name: '评论设置',
+        component: Comment,
+        meta: {
+          icon: 'el-icon-star-on',
+          fullPath: '/comment',
+          requiresAuth: true
+        }
       }
     ]
   }

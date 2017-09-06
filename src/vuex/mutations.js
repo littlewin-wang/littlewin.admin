@@ -29,3 +29,7 @@ export const SET_CATEGORIES = (state, categories) => {
 export const SET_ARTICLES = (state, articles) => {
   state.articles = articles
 }
+
+export const SET_COMMENTS = (state, comments) => {
+  state.comments = comments
+}

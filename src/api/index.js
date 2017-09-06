@@ -64,6 +64,10 @@ export default {
   DeleteCateAPI (id) {
     return axios.delete(API_ROOT.concat('category/').concat(id))
   },
+  // comment api
+  GetCommentListAPI ({ state = '', keyword = '', postID = '' }) {
+    return axios.get(API_ROOT.concat(`comment?state=${state}&keyword=${keyword}&postID=${postID}`))
+  },
   // site info
   SiteInfoAPI () {
     return axios.get(API_ROOT.concat('site'))

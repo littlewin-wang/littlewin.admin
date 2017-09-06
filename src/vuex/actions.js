@@ -56,3 +56,11 @@ export const getArticles = ({ commit }, query) => {
     }
   })
 }
+
+export const getComments = ({ commit }, query) => {
+  API.GetCommentListAPI(query).then(res => {
+    if (res.data.success) {
+      commit('SET_COMMENTS', res.data.data.comments)
+    }
+  })
+}
