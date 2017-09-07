@@ -80,6 +80,7 @@ export default {
     width: 100%
     .main-sidebar
       bottom: 0
+      background-color: #324157
       .sidebar
         height: 100%
     .main-container
