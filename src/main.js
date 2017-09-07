@@ -16,12 +16,6 @@ Vue.use(ElementUI)
 
 sync(store, router)
 
-import API from './api/index'
-
-API.GetArticleListAPI({ state: 1 }).then(res => {
-  console.log(res)
-})
-
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
