@@ -5,13 +5,7 @@
       <i v-else class="el-icon-d-arrow-right"></i>
     </div>
     <div class="header-search">
-      <el-input
-        class="input"
-        size="small"
-        placeholder="Search for"
-        icon="search"
-        v-model="input2"
-        :on-icon-click="handleIconClick">
+      <el-input class="input" size="small" placeholder="Search for" icon="search" v-model="input2" :on-icon-click="handleIconClick">
       </el-input>
     </div>
     <div class="header-info">
@@ -31,26 +25,26 @@
 </template>
 
 <script type="text/ecmascript-6">
-  export default {
-    props: {
-      user: Object
+export default {
+  props: {
+    user: Object
+  },
+  data () {
+    return {
+      isCollapse: false,
+      input2: ''
+    }
+  },
+  methods: {
+    toggleCollapse () {
+      this.isCollapse = !this.isCollapse
+      this.$emit('collapse', this.isCollapse)
     },
-    data () {
-      return {
-        isCollapse: false,
-        input2: ''
-      }
-    },
-    methods: {
-      toggleCollapse () {
-        this.isCollapse = !this.isCollapse
-        this.$emit('collapse', this.isCollapse)
-      },
-      handleIconClick (ev) {
-        console.log(ev)
-      }
+    handleIconClick (ev) {
+      console.log(ev)
     }
   }
+}
 </script>
 
 <style lang="stylus" scoped>
@@ -92,7 +86,6 @@
           margin-right: 30px
       .avatar
         display: inline-block
-        vertical-align: top
         position: relative
         height: 100%
         width: 40px
@@ -104,5 +97,4 @@
           top: 50%
           left: 50%
           transform: translate(-50%, -50%)
-
 </style>
