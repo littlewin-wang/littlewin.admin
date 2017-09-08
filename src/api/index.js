@@ -5,7 +5,7 @@
 
 import axios from 'axios'
 
-const API_ROOT = 'http://119.29.68.183/api/'
+const API_ROOT = 'http://119.29.68.183:8090/'
 axios.defaults.withCredentials = true
 
 export default {
