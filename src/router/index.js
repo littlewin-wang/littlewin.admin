@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+import Login from '@/views/Login/Login'
+
 import Main from '@/views/MainView.vue'
 
 import Site from '@/views/Site/Site.vue'
@@ -89,6 +91,16 @@ export const routerMap = [
         }
       }
     ]
+  },
+  {
+    path: '/login',
+    name: '登录',
+    component: Login,
+    meta: {
+      icon: 'el-icon-setting',
+      fullPath: '/Login',
+      requiresAuth: true
+    }
   }
 ]
 
