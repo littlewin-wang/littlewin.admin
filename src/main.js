@@ -16,6 +16,18 @@ Vue.use(ElementUI)
 
 sync(store, router)
 
+// route hooks for auth
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    let token = sessionStorage.getItem('JWT_KEY')
+
+    if (!token) {
+      next({ path: '/login', query: { redirect: to.fullPath } })
+    }
+  }
+  next()
+})
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

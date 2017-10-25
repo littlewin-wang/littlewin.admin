@@ -9,6 +9,9 @@
 <script type="text/ecmascript-6">
 import LForm from '@/components/Form/Form.vue'
 
+import API from '@/api/index'
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   components: {
     LForm
@@ -28,7 +31,7 @@ export default {
         password: {
           val: '',
           label: '密码',
-          type: 'input',
+          type: 'password',
           rule: [
             { required: true, message: '请输入密码', trigger: 'blur' },
             { type: 'string', message: '请正确输入密码', trigger: 'blur' }
@@ -37,9 +40,35 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapGetters(['token'])
+  },
   methods: {
+    ...mapActions(['userLogin']),
     confirmUser (data) {
-      console.log(data)
+      API.UserLoginAPI(data).then(res => {
+        if (res.data.success === true) {
+          // token注册保存
+          const token = `Bearer ${res.data.data.token}`
+          this.userLogin(token)
+          this.$notify({
+            title: '登录成功',
+            type: 'success'
+          })
+
+          // 跳转到重定向页面
+          let redirect = decodeURIComponent(this.$route.query.redirect || '/')
+          this.$router.push({
+            path: redirect
+          })
+        }
+      }).catch((err) => {
+        console.log(err)
+        this.$notify.error({
+          title: '错误',
+          message: err.response ? err.response.data.message : '登录失败, 查看控制台!!!'
+        })
+      })
     }
   }
 }

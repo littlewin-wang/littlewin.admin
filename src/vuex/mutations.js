@@ -2,6 +2,11 @@
  * @file mutations.js
  * @author littlewin(littlewin.wang@gmail.com)
  */
+
+export const SET_USER_TOKEN = (state, token) => {
+  state.token = token
+}
+
 export const SET_ROUTE_MAP = (state, routeMap) => {
   state.global.routerMap = routeMap
 }

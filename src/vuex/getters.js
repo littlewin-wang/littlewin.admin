@@ -3,6 +3,7 @@
  * @author littlewin(littlewin.wang@gmail.com)
  */
 
+export const token = state => state.token
 export const global = state => state.global
 export const routerMap = state => state.global.routerMap
 export const upToken = state => state.global.upToken

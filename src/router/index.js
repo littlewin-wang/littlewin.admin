@@ -18,9 +18,18 @@ Vue.use(Router)
 
 export const routerMap = [
   {
+    path: '/login',
+    name: '登录',
+    component: Login,
+    meta: {
+      fullPath: '/Login'
+    }
+  },
+  {
     path: '/',
     name: '主页面',
     component: Main,
+    redirect: '/site',
     children: [
       {
         path: 'site',
@@ -91,16 +100,6 @@ export const routerMap = [
         }
       }
     ]
-  },
-  {
-    path: '/login',
-    name: '登录',
-    component: Login,
-    meta: {
-      icon: 'el-icon-setting',
-      fullPath: '/Login',
-      requiresAuth: true
-    }
   }
 ]
 

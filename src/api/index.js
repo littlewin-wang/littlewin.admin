@@ -5,11 +5,14 @@
 
 import axios from 'axios'
 
-const API_ROOT = 'http://119.29.68.183:8090/'
+const API_ROOT = 'https://api.littlewin.wang/'
 axios.defaults.withCredentials = true
 
 export default {
   // auth api
+  UserLoginAPI (params) {
+    return axios.post(API_ROOT.concat('user'), params)
+  },
   UserInfoAPI () {
     return axios.get(API_ROOT.concat('user'))
   },

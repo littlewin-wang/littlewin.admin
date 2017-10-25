@@ -5,6 +5,10 @@
 
 import API from '@/api/index'
 
+export const userLogin = ({ commit }, token) => {
+  commit('SET_USER_TOKEN', token)
+}
+
 export const setRouteMap = ({ commit }, routeMap) => {
   commit('SET_ROUTE_MAP', routeMap)
 }
