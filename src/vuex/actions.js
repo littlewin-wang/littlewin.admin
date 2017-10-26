@@ -68,3 +68,7 @@ export const getComments = ({ commit }, query) => {
     }
   })
 }
+
+export const setErrMsg = ({ commit }, msg) => {
+  commit('SET_ERR_MSG', msg)
+}

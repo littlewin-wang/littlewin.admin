@@ -74,9 +74,7 @@ export default {
 <style lang="stylus" scoped>
   .main-body
     display: flex
-    min-height: 100vh
     position: relative
-    height: 100%
     width: 100%
     .main-sidebar
       bottom: 0

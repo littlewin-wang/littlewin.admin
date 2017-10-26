@@ -14,3 +14,4 @@ export const tags = state => state.tags
 export const categories = state => state.categories
 export const articles = state => state.articles
 export const comments = state => state.comments
+export const errMsg = state => state.errMsg

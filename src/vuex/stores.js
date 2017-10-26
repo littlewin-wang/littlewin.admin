@@ -26,7 +26,8 @@ export default new Vuex.Store({
     tags: [],
     categories: [],
     articles: [],
-    comments: []
+    comments: [],
+    errMsg: ''
   },
   getters,
   mutations,

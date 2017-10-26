@@ -52,7 +52,8 @@ export default {
           const token = `Bearer ${res.data.data.token}`
           this.userLogin(token)
           this.$notify({
-            title: '登录成功',
+            title: '芝麻开门',
+            message: '欢迎小主人归来',
             type: 'success'
           })
 
@@ -78,7 +79,7 @@ export default {
 .login-page
   position: relative
   width: 100%
-  height: 100%
+  height: 100vh
   background-color: #324157
   .login-container
     position: absolute
