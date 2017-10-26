@@ -23,7 +23,7 @@ export default new Vuex.Store({
     },
     site: {},
     user: {},
-    tags: [],
+    tags: {},
     categories: [],
     articles: [],
     comments: [],

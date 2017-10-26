@@ -37,10 +37,10 @@ export const getUser = ({ commit }) => {
   })
 }
 
-export const getTags = ({ commit }, str) => {
-  API.GetTagListAPI(str).then(res => {
+export const getTags = ({ commit }, query) => {
+  API.GetTagListAPI(query).then(res => {
     if (res.data.success) {
-      commit('SET_TAGS', res.data.data.tags)
+      commit('SET_TAGS', res.data.data)
     }
   })
 }

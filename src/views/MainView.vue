@@ -64,7 +64,7 @@ export default {
   mounted () {
     this.setRouteMap(routerMap)
     this.getUser()
-    this.getTags()
+    this.getTags({})
     this.getCategories()
     this.getArticles({})
   }

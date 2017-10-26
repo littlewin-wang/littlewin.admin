@@ -93,8 +93,8 @@ export default {
   CreateTagAPI (params) {
     return axios.post(API_ROOT.concat('tag'), params)
   },
-  GetTagListAPI (keyword = '') {
-    return axios.get(API_ROOT.concat(`tag?keyword=${keyword}`))
+  GetTagListAPI ({keyword = '', page = 1}) {
+    return axios.get(API_ROOT.concat(`tag?keyword=${keyword}&page=${page}`))
   },
   DeleteTagListAPI (params) {
     return axios.delete(API_ROOT.concat('tag'), { data: params })

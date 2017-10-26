@@ -4,7 +4,7 @@
       <LForm :title="'添加标签'" :formData="tagInfo" @confirm="confirmTag"></LForm>
     </div>
     <div class="tag-list">
-      <LTable :title="'标签管理'" :columns="tagColumns" :tableData="tags" @deleteList="handleDeleteList" @search="handleSearch" @edit="handleEdit" @delete="handleDelete">
+      <LTable :title="'标签管理'" :columns="tagColumns" :tableData="tags.tags || []" :pages="tags.pages" :page="tags.page" @deleteList="handleDeleteList" @search="handleSearch" @edit="handleEdit" @delete="handleDelete" @goPage="handlePage">
       </LTable>
     </div>
     <el-dialog :visible.sync="dialogVisible" size="tiny" :before-close="handleClose">
@@ -167,6 +167,9 @@ export default {
           })
         })
         .catch(_ => { })
+    },
+    handlePage (query) {
+      this.getTags(query)
     },
     handleClose (done) {
       this.formTitle = '确认关闭？'
