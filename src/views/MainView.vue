@@ -76,6 +76,7 @@ export default {
     display: flex
     position: relative
     width: 100%
+    height: 100%
     .main-sidebar
       bottom: 0
       background-color: #324157

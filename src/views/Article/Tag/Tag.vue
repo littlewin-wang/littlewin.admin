@@ -1,10 +1,10 @@
 <template>
   <div class="tag-container">
     <div class="tag-form">
-      <LForm :title="'添加标签'" :formData="tagInfo" @confirm="confirmTag"></LForm>
+      <LForm :title="'添加标签'" :formData.sync="tagInfo" @confirm="confirmTag"></LForm>
     </div>
     <div class="tag-list">
-      <LTable :title="'标签管理'" :columns="tagColumns" :tableData="tags.tags || []" :pages="tags.pages" :page="tags.page" @deleteList="handleDeleteList" @search="handleSearch" @edit="handleEdit" @delete="handleDelete" @goPage="handlePage">
+      <LTable ref="table" :title="'标签管理'" :columns="tagColumns" :tableData="tags.tags || []" :pages="tags.pages" :page="tags.page" @deleteList="handleDeleteList" @search="handleSearch" @edit="handleEdit" @delete="handleDelete" @goPage="handlePage">
       </LTable>
     </div>
     <el-dialog :visible.sync="dialogVisible" size="tiny" :before-close="handleClose">
@@ -106,7 +106,15 @@ export default {
           message: '添加标签成功',
           type: 'success'
         })
-        this.getTags()
+
+        // 计算新增元素所在page
+        let page = Math.ceil((this.tags.total + 1) / (this.tags.limit))
+
+        // 重新获取数据
+        this.getTags({
+          keyword: '',
+          page: page
+        })
       }).catch(err => {
         this.$message.error(err.response.data.message)
       })
@@ -122,9 +130,10 @@ export default {
           message: '修改标签成功',
           type: 'success'
         })
-        this.getTags()
+
+        this.getTags(this.$refs.table.query)
       }).catch(err => {
-        this.$message.error(err.response.data.message)
+        this.$message.error(err.response ? err.response.data.message : '好像哪里不对劲~')
       })
     },
     handleDeleteList (data) {
@@ -135,15 +144,15 @@ export default {
               message: '批量删除标签成功',
               type: 'success'
             })
-            this.getTags()
+            this.getTags({})
           }).catch(err => {
-            this.$message.error(err.response.data.message)
+            this.$message.error(err.response ? err.response.data.message : '好像哪里不对劲~')
           })
         })
         .catch(_ => { })
     },
-    handleSearch (str) {
-      this.getTags(str)
+    handleSearch (query) {
+      this.getTags(query)
     },
     handleEdit (data) {
       for (let key in this.tagEdit) {
@@ -161,9 +170,9 @@ export default {
               message: '删除标签成功',
               type: 'success'
             })
-            this.getTags()
+            this.getTags(this.$refs.table.query)
           }).catch(err => {
-            this.$message.error(err.response.data.message)
+            this.$message.error(err.response ? err.response.data.message : '好像哪里不对劲~')
           })
         })
         .catch(_ => { })

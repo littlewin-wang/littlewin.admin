@@ -87,31 +87,42 @@ export default {
       }
     }
   },
+  watch: {
+    page () {
+      this.currentPage = this.page
+    }
+  },
   methods: {
     handleRefresh () {
-      this.$emit('search', this.searchInput)
+      this.currentPage = 1
+      this.$emit('search', this.query)
     },
     handleReset () {
       this.searchInput = ''
-      this.$emit('search', this.searchInput)
+      this.currentPage = 1
+      this.$emit('search', this.query)
     },
     handleDeleteList () {
       this.$emit('deleteList', this.multipleSelection)
     },
     handleSearch () {
-      this.$emit('search', this.searchInput)
+      this.currentPage = 1
+      this.$emit('search', this.query)
     },
     handleSelectionChange (val) {
       this.multipleSelection = val
     },
     handleEdit (index, row) {
-      this.$emit('edit', row)
+      this.$emit('edit', row, this.query)
     },
     handleDelete (index, row) {
       this.$emit('delete', row)
     },
     handlePage () {
-      this.$emit('goPage', this.query)
+      // 分页栏主动触发改动时，才触发事件
+      if (this.currentPage !== this.page) {
+        this.$emit('goPage', this.query)
+      }
     }
   }
 }
