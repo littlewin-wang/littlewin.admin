@@ -109,8 +109,8 @@ export default {
   CreateCateAPI (params) {
     return axios.post(API_ROOT.concat('category'), params)
   },
-  GetCateListAPI (keyword = '') {
-    return axios.get(API_ROOT.concat(`category?keyword=${keyword}`))
+  GetCateListAPI ({keyword = '', page = 1}) {
+    return axios.get(API_ROOT.concat(`category?keyword=${keyword}&page=${page}`))
   },
   DeleteCateListAPI (params) {
     return axios.delete(API_ROOT.concat('category'), { data: params })

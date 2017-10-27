@@ -45,10 +45,10 @@ export const getTags = ({ commit }, query) => {
   })
 }
 
-export const getCategories = ({ commit }, str) => {
-  API.GetCateListAPI(str).then(res => {
+export const getCategories = ({ commit }, query) => {
+  API.GetCateListAPI(query).then(res => {
     if (res.data.success) {
-      commit('SET_CATEGORIES', res.data.data.categories)
+      commit('SET_CATEGORIES', res.data.data)
     }
   })
 }

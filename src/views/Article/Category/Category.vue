@@ -4,7 +4,7 @@
       <LForm :title="'添加分类'" :formData="categoryInfo" @confirm="confirmCategory"></LForm>
     </div>
     <div class="cate-list">
-      <LTable :title="'分类管理'" :columns="CategoryColumns" :tableData="categories" :disableBatch="true" @deleteList="handleDeleteList" @search="handleSearch" @edit="handleEdit" @delete="handleDelete">
+      <LTable ref="table" :title="'分类管理'" :columns="CategoryColumns" :tableData="categories.categories" :pages="categories.pages" :page="categories.page" :disableBatch="true" @deleteList="handleDeleteList" @search="handleSearch" @edit="handleEdit" @delete="handleDelete" @goPage="handlePage">
       </LTable>
     </div>
     <el-dialog :visible.sync="dialogVisible" size="tiny" :before-close="handleClose">
@@ -48,13 +48,22 @@ export default {
           label: '父分类',
           type: 'select',
           placeholder: '请选择父分类',
-          options: this.categories
+          options: this.categories.categories
         },
         description: {
           val: '',
           label: '描述',
           type: 'textarea',
           rule: { type: 'string', message: '请正确输入标签描述', trigger: 'blur' }
+        },
+        icon: {
+          val: '',
+          label: '图标',
+          type: 'input',
+          rule: [
+            { required: true, message: '请输入图标名称', trigger: 'blur' },
+            { type: 'string', message: '请正确输入图标名称', trigger: 'blur' }
+          ]
         }
       }
     },
@@ -79,22 +88,27 @@ export default {
           label: '父分类',
           type: 'select',
           placeholder: '请选择父分类',
-          options: this.categories
+          options: this.categories.categories
         },
         description: {
           val: '',
           label: '描述',
           type: 'textarea',
           rule: { type: 'string', message: '请正确输入标签描述', trigger: 'blur' }
+        },
+        icon: {
+          val: '',
+          label: '图标',
+          type: 'input',
+          rule: [
+            { required: true, message: '请输入图标名称', trigger: 'blur' },
+            { type: 'string', message: '请正确输入图标名称', trigger: 'blur' }
+          ]
         }
       }
     },
     CategoryColumns () {
       return {
-        id: {
-          label: 'ID',
-          width: '60'
-        },
         name: {
           label: '名称',
           width: '120'
@@ -107,6 +121,10 @@ export default {
           label: '文章',
           width: '100',
           sortable: true
+        },
+        icon: {
+          label: '图标',
+          width: '80'
         }
       }
     }
@@ -117,7 +135,13 @@ export default {
       let categoryInfo = {
         name: data.name,
         super: data.super,
-        description: data.description
+        description: data.description,
+        extends: [
+          {
+            name: 'icon',
+            value: data.icon
+          }
+        ]
       }
 
       API.CreateCateAPI(categoryInfo).then(() => {
@@ -125,7 +149,15 @@ export default {
           message: '添加标签成功',
           type: 'success'
         })
-        this.getCategories()
+
+        // 计算新增元素所在page
+        let page = Math.ceil((this.categories.total + 1) / (this.categories.limit))
+
+        // 重新获取数据
+        this.getCategories({
+          keyword: '',
+          page: page
+        })
       }).catch(err => {
         this.$message.error(err.response.data.message)
       })
@@ -134,7 +166,13 @@ export default {
       let categoryInfo = {
         name: data.name,
         super: data.super,
-        description: data.description
+        description: data.description,
+        extends: [
+          {
+            name: 'icon',
+            value: data.icon
+          }
+        ]
       }
       API.ModifyCateAPI(data._id, categoryInfo).then(() => {
         this.dialogVisible = false
@@ -142,7 +180,7 @@ export default {
           message: '修改分类成功',
           type: 'success'
         })
-        this.getCategories()
+        this.getCategories(this.$refs.table.query)
       }).catch(err => {
         this.$message.error(err.response.data.message)
       })
@@ -155,21 +193,26 @@ export default {
               message: '批量删除标签成功',
               type: 'success'
             })
-            this.getTags()
+            this.getCategories({})
           }).catch(err => {
             this.$message.error(err.response.data.message)
           })
         })
         .catch(_ => { })
     },
-    handleSearch (str) {
-      this.getCategories(str)
+    handleSearch (query) {
+      this.getCategories(query)
     },
     handleEdit (data) {
       for (let key in this.categoryEdit) {
-        this.categoryEdit[key]['val'] = data[key] ? data[key] : ''
+        if (key === 'icon') {
+          this.categoryEdit[key]['val'] = data.extends.find(e => e.name === 'icon').value
+        } else {
+          this.categoryEdit[key]['val'] = data[key] ? data[key] : ''
+        }
+
         if (key === 'super') {
-          this.categoryEdit['super'].options = this.categories.filter(category => {
+          this.categoryEdit['super'].options = this.categories.categories.filter(category => {
             return category._id !== data._id
           })
         }
@@ -186,12 +229,15 @@ export default {
               message: '删除分类成功',
               type: 'success'
             })
-            this.getCategories()
+            this.getCategories(this.$refs.table.query)
           }).catch(err => {
             this.$message.error(err.response.data.message)
           })
         })
         .catch(_ => { })
+    },
+    handlePage (query) {
+      this.getCategories(query)
     },
     handleClose (done) {
       this.formTitle = '确认关闭？'
@@ -201,8 +247,6 @@ export default {
         })
         .catch(_ => { })
     }
-  },
-  mounted () {
   }
 }
 </script>

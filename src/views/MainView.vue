@@ -65,7 +65,7 @@ export default {
     this.setRouteMap(routerMap)
     this.getUser()
     this.getTags({})
-    this.getCategories()
+    this.getCategories({})
     this.getArticles({})
   }
 }

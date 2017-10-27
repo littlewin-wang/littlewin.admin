@@ -223,8 +223,6 @@ export default {
         })
         .catch(_ => { })
     }
-  },
-  mounted () {
   }
 }
 </script>
