@@ -42,6 +42,15 @@ export default {
           label: '描述',
           type: 'textarea',
           rule: { type: 'string', message: '请正确输入标签描述', trigger: 'blur' }
+        },
+        icon: {
+          val: '',
+          label: '图标',
+          type: 'input',
+          rule: [
+            { required: true, message: '请输入图标名称', trigger: 'blur' },
+            { type: 'string', message: '请正确输入图标名称', trigger: 'blur' }
+          ]
         }
       },
       tagEdit: {
@@ -64,6 +73,15 @@ export default {
           label: '描述',
           type: 'textarea',
           rule: { type: 'string', message: '请正确输入标签描述', trigger: 'blur' }
+        },
+        icon: {
+          val: '',
+          label: '图标',
+          type: 'input',
+          rule: [
+            { required: true, message: '请输入图标名称', trigger: 'blur' },
+            { type: 'string', message: '请正确输入图标名称', trigger: 'blur' }
+          ]
         }
       },
       dialogVisible: false
@@ -73,10 +91,6 @@ export default {
     ...mapGetters(['tags']),
     tagColumns () {
       return {
-        id: {
-          label: 'ID',
-          width: '60'
-        },
         name: {
           label: '名称',
           width: '120'
@@ -89,6 +103,10 @@ export default {
           label: '文章',
           width: '100',
           sortable: true
+        },
+        icon: {
+          label: '图标',
+          width: '80'
         }
       }
     }
@@ -98,7 +116,13 @@ export default {
     confirmTag (data) {
       let tagInfo = {
         name: data.name,
-        description: data.description
+        description: data.description,
+        extends: [
+          {
+            name: 'icon',
+            value: data.icon
+          }
+        ]
       }
 
       API.CreateTagAPI(tagInfo).then(() => {
@@ -122,8 +146,15 @@ export default {
     editTag (data) {
       let tagInfo = {
         name: data.name,
-        description: data.description
+        description: data.description,
+        extends: [
+          {
+            name: 'icon',
+            value: data.icon
+          }
+        ]
       }
+
       API.ModifyTagAPI(data._id, tagInfo).then(() => {
         this.dialogVisible = false
         this.$message({
@@ -156,7 +187,11 @@ export default {
     },
     handleEdit (data) {
       for (let key in this.tagEdit) {
-        this.tagEdit[key]['val'] = data[key] ? data[key] : ''
+        if (key === 'icon') {
+          this.tagEdit[key]['val'] = data.extends.find(e => e.name === 'icon').value
+        } else {
+          this.tagEdit[key]['val'] = data[key] ? data[key] : ''
+        }
       }
 
       this.formTitle = '修改标签: ' + this.tagEdit.name.val + ' ' + new Date().toLocaleString()

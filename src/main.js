@@ -9,6 +9,7 @@ import { sync } from 'vuex-router-sync'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 import '@/style/index.styl'
+import '@/style/iconfont.css'
 
 Vue.config.productionTip = false
 

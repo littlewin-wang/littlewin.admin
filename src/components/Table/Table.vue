@@ -40,6 +40,12 @@
         </el-table-column>
 
         <el-table-column v-for="(value, key) in columns" v-bind:key="key" :prop="key" :label="value.label" :width="value.width" :sortable="value.sortable" :minWidth="value['min-width']">
+          <template scope="scope">
+            <div v-if="key==='icon'">
+              <i class="iconfont" :class="scope.row.extends.find(e => e.name === 'icon').value"></i>
+            </div>
+            <div v-else>{{scope.row[key]}}</div>
+          </template>
         </el-table-column>
 
         <el-table-column label="操作" width="150">
