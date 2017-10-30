@@ -66,7 +66,7 @@ export default {
           val: this.form.keywords ? this.form.keywords.join(',') : '',
           label: '文章关键词',
           type: 'input',
-          rule: { pattern: /^(([\u4e00-\u9fa5a-zA-Z])+,)+([\u4e00-\u9fa5a-zA-Z])+$/, message: '请正确输入关键词', trigger: 'blur' }
+          rule: { pattern: /^(\S+,)+\S+[\u4e00-\u9fa5a-zA-Z]$/, message: '请正确输入关键词', trigger: 'blur' }
         },
         description: {
           val: this.form.description || '',
@@ -78,8 +78,8 @@ export default {
           val: this.form.tag || [],
           label: '文章标签',
           type: 'tag',
-          default: this.tags,
-          update: this.getTags.bind(this, '')
+          default: this.tags.tags,
+          update: this.getTags.bind(this, {limit: 100})
         },
         content: {
           val: this.form.content || localStorage.getItem('new_content') || '',
@@ -101,7 +101,7 @@ export default {
           label: '分类',
           type: 'select',
           placeholder: '请选择文章分类',
-          options: this.categories
+          options: this.categories.categories
         }
       }
     },
@@ -193,8 +193,7 @@ export default {
       console.log(data.title)
     },
     updateCategory () {
-      this.getCategories()
-      console.log(this.$refs.postBasic.form)
+      this.getCategories({limit: 100})
     },
     confirmPost () {
       this.$refs.postBasic.$refs['form'].validate((valid) => {
@@ -272,10 +271,14 @@ export default {
     })
   },
   beforeRouteUpdate (to, from, next) {
+    this.getTags({limit: 100})
+    this.getCategories({limit: 100})
     this.formatForm(to.params.id)
     next()
   },
   mounted () {
+    this.getTags({limit: 100})
+    this.getCategories({limit: 100})
     this.setUpToken()
     this.formatForm(this.$route.params.id)
   }

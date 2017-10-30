@@ -93,8 +93,8 @@ export default {
   CreateTagAPI (params) {
     return axios.post(API_ROOT.concat('tag'), params)
   },
-  GetTagListAPI ({keyword = '', page = 1}) {
-    return axios.get(API_ROOT.concat(`tag?keyword=${keyword}&page=${page}`))
+  GetTagListAPI ({keyword = '', page = 1, limit = 10}) {
+    return axios.get(API_ROOT.concat(`tag?keyword=${keyword}&page=${page}&per_page=${limit}`))
   },
   DeleteTagListAPI (params) {
     return axios.delete(API_ROOT.concat('tag'), { data: params })
@@ -109,8 +109,8 @@ export default {
   CreateCateAPI (params) {
     return axios.post(API_ROOT.concat('category'), params)
   },
-  GetCateListAPI ({keyword = '', page = 1}) {
-    return axios.get(API_ROOT.concat(`category?keyword=${keyword}&page=${page}`))
+  GetCateListAPI ({keyword = '', page = 1, limit = 10}) {
+    return axios.get(API_ROOT.concat(`category?keyword=${keyword}&page=${page}&per_page=${limit}`))
   },
   DeleteCateListAPI (params) {
     return axios.delete(API_ROOT.concat('category'), { data: params })

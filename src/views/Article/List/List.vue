@@ -1,7 +1,7 @@
 <template>
   <div class="list-container">
     <div class="post-list">
-      <PostTable :title="'全部文章'" :columns="articleColumns" :tableData="articles" :tags="tags" :categories="categories" @search="handleSearch" @edit="handleEdit" @state="handleState">
+      <PostTable :title="'全部文章'" :columns="articleColumns" :tableData="articles" :tags="tags.tags" :categories="categories.categories" @search="handleSearch" @edit="handleEdit" @state="handleState">
       </PostTable>
     </div>
   </div>
@@ -19,21 +19,17 @@ export default {
     ...mapGetters(['articles', 'tags', 'categories']),
     articleColumns () {
       return {
-        id: {
-          label: 'ID',
-          width: '60'
-        },
         post: {
           label: '文章',
           'min-width': '200'
         },
         category: {
           label: '分类',
-          width: '80'
+          width: '120'
         },
         tag: {
           label: '标签',
-          width: '80'
+          width: '120'
         },
         comments: {
           label: '评论',
@@ -42,7 +38,7 @@ export default {
         },
         createAt: {
           label: '创建时间',
-          width: '180',
+          width: '200',
           sortable: true
         },
         pub: {
@@ -57,7 +53,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getArticles']),
+    ...mapActions(['getArticles', 'getTags', 'getCategories']),
     handleSearch (query) {
       this.getArticles(query)
     },
@@ -73,7 +69,13 @@ export default {
       })
     }
   },
+  beforeRouteUpdate (to, from, next) {
+    this.getTags({limit: 100})
+    this.getCategories({limit: 100})
+  },
   mounted () {
+    this.getTags({limit: 100})
+    this.getCategories({limit: 100})
     this.getArticles({})
   }
 }
