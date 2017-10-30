@@ -79,7 +79,7 @@ export default {
           label: '文章标签',
           type: 'tag',
           default: this.tags.tags,
-          update: this.getTags.bind(this, {limit: 100})
+          update: this.getTags.bind(this, { limit: 100 })
         },
         content: {
           val: this.form.content || localStorage.getItem('new_content') || '',
@@ -193,7 +193,7 @@ export default {
       console.log(data.title)
     },
     updateCategory () {
-      this.getCategories({limit: 100})
+      this.getCategories({ limit: 100 })
     },
     confirmPost () {
       this.$refs.postBasic.$refs['form'].validate((valid) => {
@@ -271,14 +271,14 @@ export default {
     })
   },
   beforeRouteUpdate (to, from, next) {
-    this.getTags({limit: 100})
-    this.getCategories({limit: 100})
+    this.getTags({ limit: 100 })
+    this.getCategories({ limit: 100 })
     this.formatForm(to.params.id)
     next()
   },
   mounted () {
-    this.getTags({limit: 100})
-    this.getCategories({limit: 100})
+    this.getTags({ limit: 100 })
+    this.getCategories({ limit: 100 })
     this.setUpToken()
     this.formatForm(this.$route.params.id)
   }

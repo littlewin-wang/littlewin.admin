@@ -128,14 +128,10 @@
 </template>
 
 <script type="text/ecmascript-6">
-import { markdownEditor } from 'vue-simplemde'
-require.ensure([], () => require('github-markdown-css'), 'markdown-style')
-import 'github-markdown-css'
 import API from '@/api/index'
+
 export default {
-  components: {
-    markdownEditor
-  },
+
   props: {
     title: String,
     columns: Object,

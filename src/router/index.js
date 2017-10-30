@@ -1,18 +1,15 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Login from '@/views/Login/Login'
-
-import Main from '@/views/MainView.vue'
-
-import Site from '@/views/Site/Site.vue'
-
-import Article from '@/views/Article/Article.vue'
-import Tag from '@/views/Article/Tag/Tag.vue'
-import Category from '@/views/Article/Category/Category.vue'
-import Post from '@/views/Article/Post/Post.vue'
-import List from '@/views/Article/List/List.vue'
-import Comment from '@/views/Comment/Comment.vue'
+const Login = resolve => require(['@/views/Login/Login.vue'], resolve)
+const Main = resolve => require(['@/views/MainView.vue'], resolve)
+const Site = resolve => require(['@/views/Site/Site.vue'], resolve)
+const Article = resolve => require(['@/views/Article/Article.vue'], resolve)
+const Tag = resolve => require(['@/views/Article/Tag/Tag.vue'], resolve)
+const Category = resolve => require(['@/views/Article/Category/Category.vue'], resolve)
+const Post = resolve => require(['@/views/Article/Post/Post.vue'], resolve)
+const List = resolve => require(['@/views/Article/List/List.vue'], resolve)
+const Comment = resolve => require(['@/views/Comment/Comment.vue'], resolve)
 
 Vue.use(Router)
 

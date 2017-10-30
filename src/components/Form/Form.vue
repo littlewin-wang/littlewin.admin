@@ -25,15 +25,11 @@
 <script type="text/ecmascript-6">
 import Avatar from '@/components/Avatar/Avatar.vue'
 import Tags from '@/components/Tags/Tags.vue'
-import { markdownEditor } from 'vue-simplemde'
-require.ensure([], () => require('github-markdown-css'), 'markdown-style')
-import 'github-markdown-css'
 
 export default {
   components: {
     Avatar,
-    Tags,
-    markdownEditor
+    Tags
   },
   props: {
     title: String,

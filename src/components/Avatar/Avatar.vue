@@ -1,8 +1,7 @@
 <template>
-  <el-upload class="avatar-uploader" action="http://up-z0.qiniu.com" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload" :data="postData">
-    <img v-if="imageUrl" :src="imageUrl" class="avatar">
-    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-  </el-upload>
+  <div class="avatar-uploader">
+    <i class="el-icon-plus avatar-uploader-icon"></i>
+  </div>
 </template>
 
 <script type="text/ecmascript-6">
