@@ -1,7 +1,7 @@
 <template>
   <div class="list-container">
     <div class="post-list">
-      <PostTable :title="'全部文章'" :columns="articleColumns" :tableData="articles" :tags="tags.tags" :categories="categories.categories" @search="handleSearch" @edit="handleEdit" @state="handleState">
+      <PostTable :title="'全部文章'" :columns="articleColumns" :tableData="articles.articles" :tags="tags.tags" :categories="categories.categories" :pages="articles.pages" :page="articles.page" @search="handleSearch" @edit="handleEdit" @state="handleState" @goPage="handlePage">
       </PostTable>
     </div>
   </div>
@@ -67,6 +67,10 @@ export default {
       }).catch(err => {
         this.$message.error(err.response.data.message)
       })
+    },
+    handlePage (query) {
+      console.log(query)
+      this.getArticles(query)
     }
   },
   beforeRouteUpdate (to, from, next) {

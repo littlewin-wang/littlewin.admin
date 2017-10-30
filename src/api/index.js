@@ -76,8 +76,8 @@ export default {
   ModifyArticleAPI (id, params) {
     return axios.put(API_ROOT.concat('article/').concat(id), params)
   },
-  GetArticleListAPI ({ state = '', pub = '', keyword = '', category = '', tag = '', date = '', hot = '' }) {
-    return axios.get(API_ROOT.concat(`article?state=${state}&pub=${pub}&keyword=${keyword}&category=${category}&tag=${tag}&date=${date}&hot=${hot}`))
+  GetArticleListAPI ({ page = 1, state = '', pub = '', keyword = '', category = '', tag = '', date = '', hot = '' }) {
+    return axios.get(API_ROOT.concat(`article?page=${page}&state=${state}&pub=${pub}&keyword=${keyword}&category=${category}&tag=${tag}&date=${date}&hot=${hot}`))
   },
   ModifyArticleStateAPI (params) {
     return axios.patch(API_ROOT.concat('article'), params)

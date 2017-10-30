@@ -64,8 +64,8 @@ export default {
   mounted () {
     this.setRouteMap(routerMap)
     this.getUser()
-    this.getTags({})
-    this.getCategories({})
+    this.getTags({limit: 100})
+    this.getCategories({limit: 100})
     this.getArticles({})
   }
 }

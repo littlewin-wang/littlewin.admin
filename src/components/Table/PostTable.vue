@@ -76,7 +76,6 @@
                 <i v-if="scope.row.state===0" class="el-icon-edit" style="color:#F7BA2A"></i>
                 <i v-if="scope.row.state===-1" class="el-icon-delete" style="color:#FF4949"></i>
               </h3>
-              <p>{{scope.row.description}}</p>
             </div>
             <el-tag v-else-if="key==='category'">{{scope.row.category.name}}</el-tag>
             <el-tag type="primary" style="margin:2px 0" v-else-if="key==='tag'" v-for="(tag,index) in scope.row.tag" v-bind:key="index">{{tag.name}}</el-tag>
@@ -99,21 +98,25 @@
 
         <el-table-column label="操作" width="120">
           <template scope="scope">
-            <el-button style="margin: 2px 0 2px 0" size="small" type="primary" @click="handleEdit(scope.$index, scope.row)">
+            <el-button style="margin: 2px 0" size="mini" type="primary" @click="handleEdit(scope.$index, scope.row)">
               编辑文章
             </el-button>
-            <el-button style="margin: 2px 0 2px 0" size="small" type="warning" @click="handleDraft(scope.$index, scope.row)">
+            <el-button style="margin: 2px 0" size="mini" type="warning" @click="handleDraft(scope.$index, scope.row)">
               移到草稿
             </el-button>
-            <el-button style="margin: 2px 0 2px 0" size="small" type="danger" @click="handleTrash(scope.$index, scope.row)">
+            <el-button style="margin: 2px 0" size="mini" type="danger" @click="handleTrash(scope.$index, scope.row)">
               移回收站
             </el-button>
-            <el-button style="margin: 2px 0 2px 0" size="small" type="success" @click="handlePublish(scope.$index, scope.row)">
+            <el-button style="margin: 2px 0" size="mini" type="success" @click="handlePublish(scope.$index, scope.row)">
               移到发布
             </el-button>
           </template>
         </el-table-column>
       </el-table>
+    </div>
+    <div class="table-pagination">
+      <el-pagination layout="prev, pager, next" :page-count="pages" :current-page.sync="currentPage" @current-change="handlePage">
+      </el-pagination>
     </div>
     <el-dialog :title="article.title" :visible.sync="isPreview" size="full" :before-close="resetPreview">
       <markdown-editor ref="markdownEditor" :configs="{toolbar: false}" v-model="article.content" preview-class="markdown-body"></markdown-editor>
@@ -137,6 +140,8 @@ export default {
     title: String,
     columns: Object,
     tableData: Array,
+    page: Number,
+    pages: Number,
     tags: Array,
     categories: Array,
     disableBatch: Boolean
@@ -146,6 +151,7 @@ export default {
       tag: '',
       category: '',
       searchInput: '',
+      currentPage: this.page,
       state: '全部',
       rawData: {},
       multipleSelection: [],
@@ -159,6 +165,7 @@ export default {
   computed: {
     searchQuery () {
       return {
+        page: this.currentPage,
         tag: this.tag,
         category: this.category,
         keyword: this.searchInput,
@@ -223,6 +230,12 @@ export default {
     },
     handleDelete (index, row) {
       this.$emit('delete', row)
+    },
+    handlePage () {
+      // 分页栏主动触发改动时，才触发事件
+      if (this.currentPage !== this.page) {
+        this.$emit('goPage', this.searchQuery)
+      }
     }
   }
 }
@@ -257,6 +270,9 @@ export default {
           vertical-align: top
     .table-content
       padding: 20px 20px 10px 20px
+    .table-pagination
+      padding: 0 20px 10px 20px
+      text-align: right
     .table-markdown
       position: fixed
       left: 0
