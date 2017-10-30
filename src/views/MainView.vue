@@ -78,15 +78,13 @@ export default {
     width: 100%
     height: 100%
     .main-sidebar
-      bottom: 0
       background-color: #324157
       .sidebar
         height: 100%
     .main-container
       display: flex
       flex-direction: column
-      bottom: 0
-      position: relative
+      overflow: scroll
       flex: 1
       color: #324057
       .main-nav

@@ -38,7 +38,7 @@
       </div>
     </div>
     <div class="table-content">
-      <el-table ref="multipleTable" :data="tableData" stripe style="width: 100%" max-height="720" @selection-change="handleSelectionChange">
+      <el-table ref="multipleTable" :data="tableData" :row-class-name="tableRowClassName" stripe style="width: 100%" max-height="720" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55">
         </el-table-column>
 
@@ -70,7 +70,7 @@
                 <span style="color:#99a9bf">{{parseUA(scope.row.agent).browser.name}} - {{parseUA(scope.row.agent).browser.version.original.split('.')[0]}}</span>
               </div>
               <div>系统:
-                <span style="color:#99a9bf">{{parseUA(scope.row.agent).os.name}} - {{parseUA(scope.row.agent).os.version.original.split('.')[0]}}</span>
+                <span style="color:#99a9bf">{{parseUA(scope.row.agent).os.name}}{{parseUA(scope.row.agent).os.version ? ' - ' + parseUA(scope.row.agent).os.version.original : ''}}</span>
               </div>
             </div>
             <div v-else-if="key==='state'">
@@ -92,16 +92,16 @@
 
         <el-table-column label="操作" width="120" fixed="right">
           <template scope="scope">
-            <el-button style="margin: 2px 0 2px 0" size="small" type="primary" @click="handleGo(scope.$index, scope.row)">
+            <el-button style="margin: 2px 0 2px 0" size="mini" type="primary" @click="handleGo(scope.$index, scope.row)">
               评论页面
             </el-button>
-            <el-button style="margin: 2px 0 2px 0" size="small" type="warning" @click="handleBan(scope.$index, scope.row)">
+            <el-button style="margin: 2px 0 2px 0" size="mini" type="warning" @click="handleBan(scope.$index, scope.row)">
               标为垃圾
             </el-button>
-            <el-button style="margin: 2px 0 2px 0" size="small" type="danger" @click="handleTrash(scope.$index, scope.row)">
+            <el-button style="margin: 2px 0 2px 0" size="mini" type="danger" @click="handleTrash(scope.$index, scope.row)">
               移回收站
             </el-button>
-            <el-button style="margin: 2px 0 2px 0" size="small" type="success" @click="handlePublish(scope.$index, scope.row)">
+            <el-button style="margin: 2px 0 2px 0" size="mini" type="success" @click="handlePublish(scope.$index, scope.row)">
               通过审核
             </el-button>
           </template>
@@ -138,6 +138,13 @@ export default {
     }
   },
   methods: {
+    tableRowClassName (row, index) {
+      if (row.pid !== 0) {
+        return 'reply-row'
+      } else {
+        return ''
+      }
+    },
     parseUA (ua) {
       return new UA(ua)
     },
@@ -205,6 +212,9 @@ export default {
           vertical-align: top
     .table-content
       padding: 20px 20px 10px 20px
+      .el-table 
+        .reply-row
+          background: #EFF2F7
     .table-markdown
       position: fixed
       left: 0

@@ -41,7 +41,7 @@ export default {
         },
         person: {
           label: '个人信息',
-          width: '220'
+          width: '250'
         },
         terminal: {
           label: '终端',
@@ -57,7 +57,7 @@ export default {
         },
         createAt: {
           label: '创建时间',
-          width: '180',
+          width: '200',
           sortable: true
         }
       }

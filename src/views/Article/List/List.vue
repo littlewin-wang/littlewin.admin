@@ -80,7 +80,6 @@ export default {
   mounted () {
     this.getTags({limit: 100})
     this.getCategories({limit: 100})
-    this.getArticles({})
   }
 }
 </script>

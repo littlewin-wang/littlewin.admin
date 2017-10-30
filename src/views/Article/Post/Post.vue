@@ -240,7 +240,7 @@ export default {
                 message: '文章更新成功',
                 type: 'success'
               })
-              this.form = {}
+              // this.form = {}
               localStorage.setItem('new_content', '')
             }).catch(err => {
               this.$message.error(err.response.data.message)
