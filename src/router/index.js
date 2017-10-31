@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 const Login = resolve => require(['@/views/Login/Login.vue'], resolve)
 const Main = resolve => require(['@/views/MainView.vue'], resolve)
+const Dashboard = resolve => require(['@/views/Dashboard/Dashboard.vue'], resolve)
 const Site = resolve => require(['@/views/Site/Site.vue'], resolve)
 const Article = resolve => require(['@/views/Article/Article.vue'], resolve)
 const Tag = resolve => require(['@/views/Article/Tag/Tag.vue'], resolve)
@@ -28,6 +29,16 @@ export const routerMap = [
     component: Main,
     redirect: '/site',
     children: [
+      {
+        path: 'dashboard',
+        name: '概览',
+        component: Dashboard,
+        meta: {
+          icon: 'el-icon-setting',
+          fullPath: '/dashboard',
+          requiresAuth: true
+        }
+      },
       {
         path: 'site',
         name: '全局设置',

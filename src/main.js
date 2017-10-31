@@ -84,6 +84,11 @@ import 'element-ui/lib/theme-default/index.css'
 import '@/style/index.styl'
 import '@/style/iconfont.css'
 
+import ECharts from 'vue-echarts/components/ECharts.vue'
+import 'echarts/lib/chart/line'
+import 'echarts/lib/component/polar'
+Vue.component('chart', ECharts)
+
 Vue.config.productionTip = false
 
 sync(store, router)
