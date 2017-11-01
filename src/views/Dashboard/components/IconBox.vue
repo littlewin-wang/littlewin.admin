@@ -2,23 +2,28 @@
   <div class="icon-box">
     <div class="icon-container">
       <div class="icon">
-        <i class="el-icon-star-on"></i>
+        <i class="iconfont" :class="icon"></i>
       </div>
-      <h5 class="title">933</h5>
+      <h5 class="title">{{title}}</h5>
     </div>
-    <p>933 People liked your page the last 24hs. Whoohoo!</p>
+    <p>{{content}}</p>
   </div>
 </template>
 
 <script>
   export default {
-
+    props: {
+      icon: String,
+      title: String,
+      content: String
+    }
   }
 </script>
 
 <style lang="stylus" scoped>
 .icon-box
   display: inline-block
+  vertical-align: top
   width: 8rem
   padding: 0 1rem
   text-align: center
