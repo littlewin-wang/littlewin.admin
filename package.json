@@ -17,6 +17,7 @@
     "axios": "^0.16.2",
     "element-ui": "^1.4.2",
     "github-markdown-css": "^2.8.0",
+    "gravatar": "^1.6.0",
     "ua-device": "^0.1.10",
     "vue": "^2.3.3",
     "vue-router": "^2.6.0",

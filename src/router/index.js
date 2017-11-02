@@ -27,21 +27,21 @@ export const routerMap = [
     path: '/',
     name: '主页面',
     component: Main,
-    redirect: '/site',
+    redirect: '/dashboard',
     children: [
       {
         path: 'dashboard',
         name: '概览',
         component: Dashboard,
         meta: {
-          icon: 'el-icon-setting',
+          icon: 'el-icon-menu',
           fullPath: '/dashboard',
           requiresAuth: true
         }
       },
       {
         path: 'site',
-        name: '全局设置',
+        name: '站点设置',
         component: Site,
         meta: {
           icon: 'el-icon-setting',
