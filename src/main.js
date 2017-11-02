@@ -32,6 +32,7 @@ import {
   FormItem,
   Tag,
   Icon,
+  Progress,
   Badge,
   Card,
   Loading,
@@ -65,6 +66,7 @@ Vue.use(Form)
 Vue.use(FormItem)
 Vue.use(Tag)
 Vue.use(Icon)
+Vue.use(Progress)
 Vue.use(Badge)
 Vue.use(Card)
 
