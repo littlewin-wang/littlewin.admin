@@ -8,17 +8,9 @@
         <LHeader @collapse="handleCollapse" :user="user"></LHeader>
       </div>
       <div class="main-content">
-        <div class="main-breadcrumb">
+        <div class="main-title">
           <div class="title">
-            全站设置
-          </div>
-          <div class="breadcrumb">
-            <el-breadcrumb separator="/">
-              <el-breadcrumb-item>首页</el-breadcrumb-item>
-              <el-breadcrumb-item>活动管理</el-breadcrumb-item>
-              <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-              <el-breadcrumb-item>活动详情</el-breadcrumb-item>
-            </el-breadcrumb>
+            {{$route.name}}
           </div>
         </div>
         <router-view></router-view>
@@ -93,20 +85,13 @@ export default {
       .main-content
         flex: 1
         padding: 0 30px
-        .main-breadcrumb
+        .main-title
           height: 40px
           .title
             display: inline-block
             float: left
             height: 100%
             line-height: 40px
-          .breadcrumb
-            display: inline-block
-            float: right
-            height: 100%
-            .el-breadcrumb
-              height: 100%
-              line-height: 40px
       .main-footer
         flex: 0 40px
         padding: 0 30px

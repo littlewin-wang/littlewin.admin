@@ -17,9 +17,13 @@
           <i class="el-icon-message"></i>
         </el-badge>
       </div>
-      <div class="avatar">
+      <el-dropdown class="avatar">
         <img :src="user.gravatar">
-      </div>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item @click.native="$router.push({ path: '/site' })">个人设置</el-dropdown-item>
+          <el-dropdown-item @click.native="$router.push({ path: '/login' })">登出</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </div>
   </div>
 </template>
