@@ -137,6 +137,7 @@ export default {
     })
 
     API.SiteInfoAPI().then(res => {
+      this.likes += res.data.data.site.meta.likes
       this.links = res.data.data.site.links.length
     })
 
