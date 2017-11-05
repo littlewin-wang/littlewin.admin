@@ -39,6 +39,10 @@ export const SET_COMMENTS = (state, comments) => {
   state.comments = comments
 }
 
+export const SET_EVENTS = (state, events) => {
+  state.events = events
+}
+
 export const SET_ERR_MSG = (state, errMsg) => {
   state.errMsg = errMsg
 }

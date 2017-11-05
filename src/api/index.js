@@ -139,5 +139,9 @@ export default {
   // server stat
   ServerStatAPI () {
     return axios.get(API_ROOT.concat('server'))
+  },
+  // event list
+  GetEventAPI () {
+    return axios.get(API_ROOT.concat('event'))
   }
 }

@@ -10,9 +10,17 @@
     </div>
     <div class="header-info">
       <div class="info">
-        <el-badge :value="12" class="item">
-          <i class="el-icon-information"></i>
-        </el-badge>
+        <el-dropdown class="item" :hide-on-click="false">
+          <el-badge :value="notReadCount" style="cursor:pointer">
+            <i class="el-icon-information" style="font-size:16px"></i>
+          </el-badge>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item v-for="(e, index) in events" :key="index" class="event-item" :class="{active: !readList.includes(e.id)}" @click.native="handleRead(e.id)">
+              <h5>{{eventTranslate(e.person, e.action, e.target.type)}}</h5>
+              <span>{{new Date(e.createAt).toLocaleString()}}</span>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
         <el-badge :value="3" class="item">
           <i class="el-icon-message"></i>
         </el-badge>
@@ -31,12 +39,25 @@
 <script type="text/ecmascript-6">
 export default {
   props: {
-    user: Object
+    user: Object,
+    events: Array
   },
   data () {
     return {
       isCollapse: false,
-      input2: ''
+      input2: '',
+      readList: JSON.parse(localStorage.getItem('readEvent')) || []
+    }
+  },
+  computed: {
+    notReadCount () {
+      let count = 0
+      this.events.map(e => {
+        if (!this.readList.includes(e.id)) {
+          count += 1
+        }
+      })
+      return count
     }
   },
   methods: {
@@ -46,6 +67,48 @@ export default {
     },
     handleIconClick (ev) {
       console.log(ev)
+    },
+    handleRead (id) {
+      if (!(this.readList).includes(id)) {
+        this.readList.push(id)
+        localStorage.setItem('readEvent', JSON.stringify(this.readList))
+      }
+    },
+    eventTranslate (person, action, target) {
+      let actionZh = ''
+      let targetZh = ''
+
+      if (action === 'NEW') {
+        actionZh = '新建'
+      } else if (action === 'MODIFY') {
+        actionZh = '修改'
+      } else if (action === 'MODIFYLIST') {
+        actionZh = '批量修改'
+      } else if (action === 'DELETE') {
+        actionZh = '删除'
+      } else if (action === 'DELETELIST') {
+        actionZh = '批量删除'
+      } else if (action === 'LIKE') {
+        actionZh = '喜欢'
+      } else {
+        actionZh = action
+      }
+
+      if (target === 'ARTICLE') {
+        targetZh = '文章'
+      } else if (target === 'CATEGORY') {
+        targetZh = '分类'
+      } else if (target === 'TAG') {
+        targetZh = '标签'
+      } else if (target === 'SITE') {
+        targetZh = '本站'
+      } else if (target === 'COMMENT') {
+        targetZh = '评论'
+      } else {
+        targetZh = target
+      }
+
+      return `${(person === 'Admin' || person === 'ADMIN') ? '小主人' : person} ${actionZh} ${targetZh}`
     }
   }
 }
@@ -101,4 +164,18 @@ export default {
           top: 50%
           left: 50%
           transform: translate(-50%, -50%)
+
+  .event-item
+    margin: .5rem 1rem
+    border-left: 2px solid #e5e8ee
+    h5
+      height: 1.2rem
+      margin: 0 0 .2rem 0
+      font-size: .9rem
+      font-weight: normal
+    span
+      font-size: .8rem
+      color: #888
+    &.active
+      background-color: #e4e8f1
 </style>

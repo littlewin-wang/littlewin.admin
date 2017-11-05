@@ -5,7 +5,7 @@
     </div>
     <div class="main-container">
       <div class="main-nav">
-        <LHeader @collapse="handleCollapse" :user="user"></LHeader>
+        <LHeader @collapse="handleCollapse" :user="user" :events="events"></LHeader>
       </div>
       <div class="main-content">
         <div class="main-title">
@@ -45,10 +45,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['user'])
+    ...mapGetters(['user', 'events'])
   },
   methods: {
-    ...mapActions(['setRouteMap', 'getUser', 'getTags', 'getCategories', 'getArticles']),
+    ...mapActions(['setRouteMap', 'getUser', 'getTags', 'getCategories', 'getArticles', 'getEvents']),
     handleCollapse (isCollapse) {
       this.isCollapse = isCollapse
     }
@@ -56,9 +56,10 @@ export default {
   mounted () {
     this.setRouteMap(routerMap)
     this.getUser()
-    this.getTags({limit: 100})
-    this.getCategories({limit: 100})
+    this.getTags({ limit: 100 })
+    this.getCategories({ limit: 100 })
     this.getArticles({})
+    this.getEvents()
   }
 }
 </script>

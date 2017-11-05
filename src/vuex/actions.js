@@ -69,6 +69,14 @@ export const getComments = ({ commit }, query) => {
   })
 }
 
+export const getEvents = ({ commit }) => {
+  API.GetEventAPI().then(res => {
+    if (res.data.success) {
+      commit('SET_EVENTS', res.data.data.events)
+    }
+  })
+}
+
 export const setErrMsg = ({ commit }, msg) => {
   commit('SET_ERR_MSG', msg)
 }
