@@ -21,6 +21,7 @@ export default new Vuex.Store({
       routerMap: [],
       upToken: ''
     },
+    qcloudToken: {},
     site: {},
     user: {},
     tags: {},

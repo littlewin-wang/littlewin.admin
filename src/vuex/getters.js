@@ -7,6 +7,7 @@ export const token = state => state.token
 export const global = state => state.global
 export const routerMap = state => state.global.routerMap
 export const upToken = state => state.global.upToken
+export const qcloudToken = state => state.qcloudToken
 export const route = state => state.route
 export const site = state => state.site
 export const user = state => state.user

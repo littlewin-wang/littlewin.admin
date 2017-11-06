@@ -4,7 +4,7 @@
       <LForm :title="'全局设置'" :formData="siteInfo" @confirm="confirmSite"></LForm>
     </div>
     <div class="owner-form">
-      <LForm :title="'用户设置'" :formData="userInfo" @confirm="confirmUser"></LForm>
+      <LForm ref="userForm" :title="'用户设置'" :formData="userInfo" @imageSync="handleImageSync" @confirm="confirmUser"></LForm>
     </div>
   </div>
 </template>
@@ -13,13 +13,19 @@
 import LForm from '@/components/Form/Form.vue'
 import { mapGetters, mapActions } from 'vuex'
 import API from '@/api/index'
+const cos = require('@/utils/qcloud')
 
 export default {
   components: {
     LForm
   },
+  data () {
+    return {
+      avatarData: ''
+    }
+  },
   computed: {
-    ...mapGetters(['upToken', 'site', 'user']),
+    ...mapGetters(['upToken', 'site', 'user', 'qcloudToken']),
     siteInfo () {
       return {
         title: {
@@ -75,7 +81,7 @@ export default {
           val: this.user.gravatar || '',
           label: '头像',
           type: 'avatar',
-          upToken: this.upToken,
+          token: this.qcloudToken,
           rule: { type: 'url', message: '请输入头像', trigger: 'blur' }
         },
         username: {
@@ -115,7 +121,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setUpToken', 'getSite', 'getUser']),
+    ...mapActions(['setUpToken', 'getSite', 'getUser', 'getQcloudToken']),
     confirmSite (data) {
       let siteInfo = {
         title: data.title,
@@ -133,6 +139,28 @@ export default {
         })
         this.getSite()
       })
+    },
+    handleImageSync (data) {
+      this.avatarData = data
+    },
+    b64toBlob (b64Data, contentType, sliceSize) {
+      contentType = contentType || ''
+      sliceSize = sliceSize || 512
+      let byteCharacters = atob(b64Data)
+      let byteArrays = []
+
+      for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        let slice = byteCharacters.slice(offset, offset + sliceSize)
+        let byteNumbers = new Array(slice.length)
+        for (let i = 0; i < slice.length; i++) {
+          byteNumbers[i] = slice.charCodeAt(i)
+        }
+        let byteArray = new Uint8Array(byteNumbers)
+        byteArrays.push(byteArray)
+      }
+
+      let blob = new Blob(byteArrays, { type: contentType })
+      return blob
     },
     confirmUser (data) {
       let userInfo = {
@@ -156,12 +184,31 @@ export default {
           }
         }
       }
+
       API.ModifyUserInfoAPI(userInfo).then(() => {
+        // 显示信息
         this.$message({
           message: '更新成功',
           type: 'success'
         })
-        this.getUser()
+
+        // 处理图片上传
+        if (this.avatarData !== userInfo.gravatar) {
+          let cosAPI = cos(this.qcloudToken)
+
+          cosAPI.putObject({
+            Bucket: this.qcloudToken.Bucket,
+            Region: this.qcloudToken.Region,
+            Key: this.qcloudToken.Bucket + '/' + data.gravatar.split('/').reverse()[0],
+            Body: this.b64toBlob(this.avatarData.replace(/^data:image\/\w+;base64,/, ''))
+          }, (err, data) => {
+            if (err) {
+              this.$message.error('图片上传失败')
+            } else {
+              this.getUser()
+            }
+          })
+        }
       }).catch(err => {
         this.$message.error(err.response.data.message)
       })
@@ -169,6 +216,7 @@ export default {
   },
   mounted () {
     this.setUpToken()
+    this.getQcloudToken()
     this.getSite()
     this.getUser()
   }

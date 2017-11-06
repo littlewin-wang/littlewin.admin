@@ -15,6 +15,10 @@ export const SET_UP_TOKEN = (state, upToken) => {
   state.global.upToken = upToken
 }
 
+export const SET_QCLOUD_TOKEN = (state, qcloudToken) => {
+  state.qcloudToken = qcloudToken
+}
+
 export const SET_SITE = (state, site) => {
   state.site = site
 }

@@ -9,7 +9,7 @@
           <el-select v-model="form[key]" :placeholder="value.placeholder" filterable clearable v-if="value.type==='select'">
             <el-option v-for="option in value.options" v-bind:key="option._id" :label="option.name" :value="option._id"></el-option>
           </el-select>
-          <Avatar v-else-if="value.type==='avatar'" :url="form[key]" :upToken="value.upToken" @upload="handleUpload"></Avatar>
+          <Avatar ref="avatar" v-else-if="value.type==='avatar'" :url="form[key]" :token="value.token" @changeName="handleChangeName"></Avatar>
           <Tags v-else-if="value.type==='tag'" :tag="form[key]" :tagsList="value.default" :update="value.update" @select="handleSelect"></Tags>
           <markdown-editor v-else-if="value.type==='markdown'" v-model="form[key]" :configs="value.configs" preview-class="markdown-body" @input="handleInput"></markdown-editor>
           <el-input :type="value.type" :rows=4 v-model="form[key]" :disabled="['_id','id'].indexOf(key)!==-1" v-else></el-input>
@@ -51,15 +51,13 @@ export default {
     }
   },
   methods: {
-    handleUpload (data) {
-      let baseUrl = 'http://7xpot0.com1.z0.glb.clouddn.com/'
-
+    handleChangeName (name) {
       if ('gravatar' in this.form) {
-        this.$set(this.form, 'gravatar', baseUrl + data.key)
+        this.$set(this.form, 'gravatar', this.formData['gravatar'].token.prefixURL + this.formData['gravatar'].token.Bucket + '/' + name)
       }
 
       if ('thumb' in this.form) {
-        this.$set(this.form, 'thumb', baseUrl + data.key)
+        this.$set(this.form, 'thumb', this.formData['gravatar'].token.prefixURL + this.formData['gravatar'].token.Bucket + '/' + name)
       }
     },
     handleSelect (data) {
@@ -76,6 +74,10 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          if (this.$refs.avatar) {
+            this.$emit('imageSync', this.$refs.avatar[0].dataUrl)
+          }
+
           this.$emit('confirm', this.form)
           // this.formatForm()
         } else {

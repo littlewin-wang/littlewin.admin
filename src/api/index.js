@@ -132,6 +132,10 @@ export default {
   GetQiniuAPI () {
     return axios.get(API_ROOT.concat('qiniu'))
   },
+  // qcloud token
+  GetQcloudAPI () {
+    return axios.get(API_ROOT.concat('qcloud'))
+  },
   // git repos
   GithubReposAPI () {
     return axios.get(API_ROOT.concat('github'))

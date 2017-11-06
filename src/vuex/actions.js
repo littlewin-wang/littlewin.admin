@@ -21,6 +21,14 @@ export const setUpToken = ({ commit }) => {
   })
 }
 
+export const getQcloudToken = ({ commit }) => {
+  API.GetQcloudAPI().then(res => {
+    if (res.data.success) {
+      commit('SET_QCLOUD_TOKEN', res.data.data)
+    }
+  })
+}
+
 export const getSite = ({ commit }) => {
   API.SiteInfoAPI().then(res => {
     if (res.data.success) {

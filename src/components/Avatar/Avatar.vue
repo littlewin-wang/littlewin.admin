@@ -1,6 +1,6 @@
 <template>
   <div class="avatar-uploader">
-    <i class="el-icon-plus avatar-uploader-icon"></i>
+    <VueImgInputer ref="image" v-model="file" accept="image/*" :imgSrc="url" @onChange="fileChange"></VueImgInputer>
   </div>
 </template>
 
@@ -9,34 +9,21 @@
 export default {
   props: {
     url: String,
-    upToken: String
+    token: Object
+  },
+  data () {
+    return {
+      file: null
+    }
   },
   computed: {
-    postData () {
-      return {
-        token: this.upToken
-      }
-    },
-    imageUrl () {
-      return this.url
+    dataUrl () {
+      return this.$refs.image.dataUrl
     }
   },
   methods: {
-    handleAvatarSuccess (res, file) {
-      this.$emit('upload', res)
-    },
-    beforeAvatarUpload (file) {
-      // const isJPG = file.type === 'image/jpeg'
-      const isLt2M = file.size / 1024 / 1024 < 2
-
-      // if (!isJPG) {
-      //   this.$message.error('上传头像图片只能是 JPG 格式!')
-      // }
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!')
-      }
-      // return isJPG && isLt2M
-      return isLt2M
+    fileChange (file, name) {
+      this.$emit('changeName', name)
     }
   }
 }

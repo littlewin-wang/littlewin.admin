@@ -86,6 +86,9 @@ import 'element-ui/lib/theme-default/index.css'
 import '@/style/index.styl'
 import '@/style/iconfont.css'
 
+import VueImgInputer from 'vue-img-inputer'
+Vue.component('VueImgInputer', VueImgInputer)
+
 Vue.config.productionTip = false
 
 sync(store, router)
