@@ -11,7 +11,7 @@
         </div>
       </div>
       <div class="new-thumb">
-        <LForm :title="'文章标签'" ref="postThumb" :formData="thumbInfo" :noSubmit="true"></LForm>
+        <LForm :title="'文章缩略图'" ref="postThumb" :formData="thumbInfo" :noSubmit="true"></LForm>
       </div>
       <div class="new-publish">
         <LForm :title="'文章发布'" ref="postPublish" :formData="publishInfo" :noSubmit="true"></LForm>
@@ -35,6 +35,7 @@
 import LForm from '@/components/Form/Form.vue'
 import { mapGetters, mapActions } from 'vuex'
 import API from '@/api/index'
+const cos = require('@/utils/qcloud')
 
 export default {
   components: {
@@ -46,11 +47,12 @@ export default {
       form: {},
       configs: {
         spellChecker: false // 禁用拼写检查
-      }
+      },
+      avatarData: ''
     }
   },
   computed: {
-    ...mapGetters(['upToken', 'tags', 'categories']),
+    ...mapGetters(['upToken', 'qcloudToken', 'tags', 'categories']),
     articleInfo () {
       return {
         title: {
@@ -111,7 +113,7 @@ export default {
           val: this.form.thumb || '',
           label: '缩略图',
           type: 'avatar',
-          upToken: this.upToken,
+          token: this.qcloudToken,
           placeholder: '请选择文章缩略图'
         }
       }
@@ -166,7 +168,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setUpToken', 'getTags', 'getCategories']),
+    ...mapActions(['setUpToken', 'getTags', 'getCategories', 'getQcloudToken']),
     formatForm (id) {
       if (id === 'new') {
         this.type = 'add'
@@ -195,11 +197,30 @@ export default {
     updateCategory () {
       this.getCategories({ limit: 100 })
     },
+    b64toBlob (b64Data, contentType, sliceSize) {
+      contentType = contentType || ''
+      sliceSize = sliceSize || 512
+      let byteCharacters = atob(b64Data)
+      let byteArrays = []
+
+      for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        let slice = byteCharacters.slice(offset, offset + sliceSize)
+        let byteNumbers = new Array(slice.length)
+        for (let i = 0; i < slice.length; i++) {
+          byteNumbers[i] = slice.charCodeAt(i)
+        }
+        let byteArray = new Uint8Array(byteNumbers)
+        byteArrays.push(byteArray)
+      }
+
+      let blob = new Blob(byteArrays, { type: contentType })
+      return blob
+    },
     confirmPost () {
       this.$refs.postBasic.$refs['form'].validate((valid) => {
         if (valid) {
           if (this.$refs.postBasic.form.content) {
-            console.log(this.$refs.postBasic.form)
+            console.log('[INFO] - BASIC POST', this.$refs.postBasic.form)
           } else {
             this.$message.error('文章内容为空')
             return false
@@ -215,9 +236,27 @@ export default {
       // format keywords
       articleObj.keywords = articleObj.keywords.split(',')
 
-      console.log(articleObj)
       this.$confirm('确认文章内容')
         .then(_ => {
+          // 处理图片上传
+          let avatarData = this.$refs.postThumb.$refs.avatar[0].dataUrl
+
+          if (avatarData !== articleObj.thumb) {
+            let cosAPI = cos(this.qcloudToken)
+
+            cosAPI.putObject({
+              Bucket: this.qcloudToken.Bucket,
+              Region: this.qcloudToken.Region,
+              Key: this.qcloudToken.Bucket + '/' + articleObj.thumb.split('/').reverse()[0],
+              Body: this.b64toBlob(avatarData.replace(/^data:image\/\w+;base64,/, ''))
+            }, (err, data) => {
+              if (err) {
+                this.$message.error('图片上传失败')
+                return
+              }
+            })
+          }
+
           if (this.type === 'add') {
             API.CreateArticleAPI(articleObj).then((res) => {
               this.$message({
@@ -240,6 +279,8 @@ export default {
                 message: '文章更新成功',
                 type: 'success'
               })
+
+              // 本地缓存文章内容
               // this.form = {}
               localStorage.setItem('new_content', '')
             }).catch(err => {
@@ -247,7 +288,7 @@ export default {
             })
           }
         })
-        .catch(_ => { })
+        .catch(err => { console.error(err) })
     }
   },
   beforeRouteEnter (to, from, next) {
@@ -280,6 +321,7 @@ export default {
     this.getTags({ limit: 100 })
     this.getCategories({ limit: 100 })
     this.setUpToken()
+    this.getQcloudToken()
     this.formatForm(this.$route.params.id)
   }
 }

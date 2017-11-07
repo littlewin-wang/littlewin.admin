@@ -57,7 +57,7 @@ export default {
       }
 
       if ('thumb' in this.form) {
-        this.$set(this.form, 'thumb', this.formData['gravatar'].token.prefixURL + this.formData['gravatar'].token.Bucket + '/' + name)
+        this.$set(this.form, 'thumb', this.formData['thumb'].token.prefixURL + this.formData['thumb'].token.Bucket + '/' + name)
       }
     },
     handleSelect (data) {
