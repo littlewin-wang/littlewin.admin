@@ -29,6 +29,7 @@ export default new Vuex.Store({
     articles: [],
     comments: [],
     events: [],
+    msg: {},
     errMsg: ''
   },
   getters,

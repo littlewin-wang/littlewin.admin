@@ -147,5 +147,21 @@ export default {
   // event list
   GetEventAPI () {
     return axios.get(API_ROOT.concat('event'))
+  },
+  // message list
+  GetMsgAPI ({ keyword = '', page = 1, limit = 10 }) {
+    return axios.get(API_ROOT.concat(`message?keyword=${keyword}&page=${page}&per_page=${limit}`))
+  },
+  CreateMsgAPI (params) {
+    return axios.post(API_ROOT.concat('message'), params)
+  },
+  ModifyMsgAPI (id, params) {
+    return axios.put(API_ROOT.concat('message/').concat(id), params)
+  },
+  DeleteMsgAPI (id) {
+    return axios.delete(API_ROOT.concat('message/').concat(id))
+  },
+  DeleteMsgListAPI (params) {
+    return axios.delete(API_ROOT.concat('message'), { data: params })
   }
 }

@@ -48,7 +48,7 @@ export default {
     ...mapGetters(['user', 'events'])
   },
   methods: {
-    ...mapActions(['setRouteMap', 'getUser', 'getTags', 'getCategories', 'getArticles', 'getEvents']),
+    ...mapActions(['setRouteMap', 'getUser', 'getTags', 'getCategories', 'getArticles', 'getEvents', 'getMsg']),
     handleCollapse (isCollapse) {
       this.isCollapse = isCollapse
     }
@@ -60,6 +60,7 @@ export default {
     this.getCategories({ limit: 100 })
     this.getArticles({})
     this.getEvents()
+    this.getMsg({ limit: 100 })
   }
 }
 </script>

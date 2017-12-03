@@ -4,6 +4,7 @@ import Router from 'vue-router'
 const Login = resolve => require(['@/views/Login/Login.vue'], resolve)
 const Main = resolve => require(['@/views/MainView.vue'], resolve)
 const Dashboard = resolve => require(['@/views/Dashboard/Dashboard.vue'], resolve)
+const Message = resolve => require(['@/views/Message/Message.vue'], resolve)
 const Site = resolve => require(['@/views/Site/Site.vue'], resolve)
 const Article = resolve => require(['@/views/Article/Article.vue'], resolve)
 const Tag = resolve => require(['@/views/Article/Tag/Tag.vue'], resolve)
@@ -36,6 +37,16 @@ export const routerMap = [
         meta: {
           icon: 'el-icon-menu',
           fullPath: '/dashboard',
+          requiresAuth: true
+        }
+      },
+      {
+        path: 'message',
+        name: '公告管理',
+        component: Message,
+        meta: {
+          icon: 'el-icon-information',
+          fullPath: '/message',
           requiresAuth: true
         }
       },

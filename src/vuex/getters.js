@@ -16,4 +16,5 @@ export const categories = state => state.categories
 export const articles = state => state.articles
 export const comments = state => state.comments
 export const events = state => state.events
+export const msg = state => state.msg
 export const errMsg = state => state.errMsg

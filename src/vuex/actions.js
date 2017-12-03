@@ -85,6 +85,14 @@ export const getEvents = ({ commit }) => {
   })
 }
 
+export const getMsg = ({ commit }, query) => {
+  API.GetMsgAPI(query).then(res => {
+    if (res.data.success) {
+      commit('SET_MSG', res.data.data)
+    }
+  })
+}
+
 export const setErrMsg = ({ commit }, msg) => {
   commit('SET_ERR_MSG', msg)
 }
